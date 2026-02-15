@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Live Ticker</string>
+    <string name="action_settings">Settings</string>
+    <string name="first_fragment_label">Live Ticker</string>
+    <string name="second_fragment_label">Portfolio</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="connect_wallet">Connect Wallet</string>
+    <string name="disconnect_wallet">Disconnect Wallet</string>
+    <string name="view_portfolio">View Portfolio</string>
+    <string name="connect_to_aave">Open Aave</string>
+    <string name="search_hint">Search coins…</string>
+    <string name="portfolio_title">Portfolio</string>
+    <string name="back_to_ticker">Back to Ticker</string>
+    <string name="no_wallet_connected">No wallet connected</string>
+    <string name="no_tokens_found">No tokens found in this wallet</string>
+    <string name="error_loading_portfolio">Error loading portfolio</string>
+    <string name="retry">Retry</string>
+    <string name="loading">Loading…</string>
+    <string name="token_header">Token</string>
+    <string name="balance_header">Balance</string>
+    <string name="value_header">Value</string>
+</resources>

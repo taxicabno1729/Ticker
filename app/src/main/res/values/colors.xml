@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Crypto dark theme palette -->
+    <color name="background_dark">#FF121212</color>
+    <color name="surface_dark">#FF1E1E1E</color>
+    <color name="card_dark">#FF2A2A2A</color>
+    <color name="primary">#FF6C63FF</color>
+    <color name="primary_variant">#FF3700B3</color>
+    <color name="secondary">#FF03DAC5</color>
+    <color name="accent_green">#FF4CAF50</color>
+    <color name="accent_red">#FFE53935</color>
+    <color name="text_primary">#FFFFFFFF</color>
+    <color name="text_secondary">#B3FFFFFF</color>
+    <color name="text_hint">#80FFFFFF</color>
+    <color name="divider">#1FFFFFFF</color>
+    <color name="portfolio_header">#FF1A237E</color>
+    <color name="card_stroke">#1FFFFFFF</color>
+</resources>
