@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.liveticker.R
 import com.example.liveticker.data.Ticker
 
-class TickerAdapter : ListAdapter<Ticker, TickerAdapter.TickerViewHolder>(TickerDiffCallback()) {
+class TickerAdapter(
+    private val onItemClick: (Ticker) -> Unit = {}
+) : ListAdapter<Ticker, TickerAdapter.TickerViewHolder>(TickerDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TickerViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -38,6 +40,8 @@ class TickerAdapter : ListAdapter<Ticker, TickerAdapter.TickerViewHolder>(Ticker
         } else {
             holder.tickerChange.visibility = View.GONE
         }
+
+        holder.itemView.setOnClickListener { onItemClick(ticker) }
     }
 
     class TickerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

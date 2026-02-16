@@ -180,7 +180,14 @@ class FirstFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        tickerAdapter = TickerAdapter()
+        tickerAdapter = TickerAdapter { ticker ->
+            val bundle = bundleOf(
+                "coin_id" to ticker.id,
+                "coin_name" to ticker.name,
+                "coin_symbol" to ticker.symbol
+            )
+            findNavController().navigate(R.id.action_FirstFragment_to_CoinDetailFragment, bundle)
+        }
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = tickerAdapter

@@ -14,6 +14,29 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+
+        <action
+            android:id="@+id/action_FirstFragment_to_CoinDetailFragment"
+            app:destination="@id/CoinDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/CoinDetailFragment"
+        android:name="com.example.liveticker.CoinDetailFragment"
+        android:label="@string/coin_detail_label"
+        tools:layout="@layout/fragment_coin_detail">
+
+        <argument
+            android:name="coin_id"
+            app:argType="string" />
+        <argument
+            android:name="coin_name"
+            app:argType="string"
+            android:defaultValue="" />
+        <argument
+            android:name="coin_symbol"
+            app:argType="string"
+            android:defaultValue="" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"

@@ -21,4 +21,42 @@
     <string name="token_header">Token</string>
     <string name="balance_header">Balance</string>
     <string name="value_header">Value</string>
+
+    <!-- Coin Detail Screen -->
+    <string name="coin_detail_label">Coin Detail</string>
+    <string name="price_statistics">Price Statistics</string>
+    <string name="greek_indicators">Greek Indicators (30d)</string>
+    <string name="market_data">Market Data</string>
+    <string name="supply_info">Supply Info</string>
+    <string name="about">About</string>
+    <string name="high_24h">24h High</string>
+    <string name="low_24h">24h Low</string>
+    <string name="change_24h">24h Change</string>
+    <string name="change_7d">7d Change</string>
+    <string name="change_30d">30d Change</string>
+    <string name="change_1y">1y Change</string>
+    <string name="ath">All-Time High</string>
+    <string name="ath_change">ATH Change</string>
+    <string name="atl">All-Time Low</string>
+    <string name="atl_change">ATL Change</string>
+    <string name="market_cap">Market Cap</string>
+    <string name="market_cap_rank">Market Cap Rank</string>
+    <string name="volume_24h">24h Volume</string>
+    <string name="volume_market_cap">Vol/Mkt Cap</string>
+    <string name="circulating_supply">Circulating Supply</string>
+    <string name="total_supply">Total Supply</string>
+    <string name="max_supply">Max Supply</string>
+    <string name="delta_label">Delta</string>
+    <string name="gamma_label">Gamma</string>
+    <string name="theta_label">Theta</string>
+    <string name="vega_label">Vega</string>
+    <string name="rho_label">Rho</string>
+    <string name="delta_desc">Avg daily return</string>
+    <string name="gamma_desc">Return std dev</string>
+    <string name="theta_desc">Annualized 30d return</string>
+    <string name="vega_desc">Annualized volatility</string>
+    <string name="rho_desc">Risk-adjusted return</string>
+    <string name="na">N/A</string>
+    <string name="show_more">Show more</string>
+    <string name="show_less">Show less</string>
 </resources>

@@ -26,4 +26,26 @@ class CoinRepository {
             }
         }
     }
+
+    suspend fun getCoinDetail(coinId: String): Resource<CoinDetail> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = RetrofitClient.instance.getCoinDetail(coinId)
+                Resource.Success(response)
+            } catch (e: Exception) {
+                Resource.Error(e.message ?: "An unknown error occurred")
+            }
+        }
+    }
+
+    suspend fun getMarketChart(coinId: String, days: Int = 30): Resource<MarketChart> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = RetrofitClient.instance.getMarketChart(coinId, days = days)
+                Resource.Success(response)
+            } catch (e: Exception) {
+                Resource.Error(e.message ?: "An unknown error occurred")
+            }
+        }
+    }
 }
