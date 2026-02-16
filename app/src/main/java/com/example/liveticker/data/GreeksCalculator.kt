@@ -37,6 +37,28 @@ object GreeksCalculator {
         )
     }
 
+    fun calculateWeighted(items: List<Pair<Double, CryptoGreeks>>): CryptoGreeks {
+        val totalWeight = items.sumOf { it.first }
+        if (totalWeight == 0.0) return CryptoGreeks(0.0, 0.0, 0.0, 0.0, 0.0)
+
+        var delta = 0.0
+        var gamma = 0.0
+        var theta = 0.0
+        var vega = 0.0
+        var rho = 0.0
+
+        for ((weight, greeks) in items) {
+            val w = weight / totalWeight
+            delta += w * greeks.delta
+            gamma += w * greeks.gamma
+            theta += w * greeks.theta
+            vega += w * greeks.vega
+            rho += w * greeks.rho
+        }
+
+        return CryptoGreeks(delta, gamma, theta, vega, rho)
+    }
+
     private fun stdDev(values: List<Double>, mean: Double): Double {
         if (values.size < 2) return 0.0
         val variance = values.sumOf { (it - mean) * (it - mean) } / (values.size - 1)

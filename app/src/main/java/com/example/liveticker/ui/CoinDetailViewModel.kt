@@ -52,7 +52,27 @@ class CoinDetailViewModel(
                 CoinDetailState(
                     coinDetail = coinDetail,
                     greeks = greeks,
-                    priceHistory = prices
+                    priceHistory = prices,
+                    greeksDays = 30
+                )
+            )
+        }
+    }
+
+    fun updateDays(days: Int) {
+        viewModelScope.launch {
+            val currentState = (_state.value as? Resource.Success)?.data ?: return@launch
+            _state.value = Resource.Success(currentState.copy(greeks = null, greeksDays = days))
+
+            val chartResult = coinRepository.getMarketChart(coinId, days)
+            val prices = chartResult.data?.prices
+            val greeks = if (prices != null) GreeksCalculator.calculate(prices) else null
+
+            _state.value = Resource.Success(
+                currentState.copy(
+                    greeks = greeks,
+                    priceHistory = prices,
+                    greeksDays = days
                 )
             )
         }

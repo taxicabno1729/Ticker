@@ -106,7 +106,8 @@ class WalletRepository {
                             balance = nativeBalanceDouble,
                             priceUsd = nativePrice,
                             valueUsd = nativeValue,
-                            chainName = chain.name
+                            chainName = chain.name,
+                            coingeckoId = chain.coingeckoNativeId
                         )
                     }
                    
@@ -130,7 +131,8 @@ class WalletRepository {
                             balance = balanceDouble,
                             priceUsd = price,
                             valueUsd = value,
-                            chainName = chain.name
+                            chainName = chain.name,
+                            coingeckoId = tokenInfo.coingeckoId
                         )
                     }
                 }

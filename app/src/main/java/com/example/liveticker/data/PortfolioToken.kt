@@ -8,7 +8,8 @@ data class PortfolioToken(
     val balance: Double,
     val priceUsd: Double,
     val valueUsd: Double,
-    val chainName: String = "Ethereum"
+    val chainName: String = "Ethereum",
+    val coingeckoId: String = ""
 )
 
 object Erc20Tokens {

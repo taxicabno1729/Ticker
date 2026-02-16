@@ -5,6 +5,7 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -54,6 +55,14 @@ class CoinDetailFragment : Fragment() {
         binding.detailRetryButton.setOnClickListener {
             binding.detailError.visibility = View.GONE
             viewModel.loadCoinDetail()
+        }
+
+        binding.greeksApplyButton.setOnClickListener { applyGreeksDays() }
+        binding.greeksDaysInput.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                applyGreeksDays()
+                true
+            } else false
         }
 
         lifecycleScope.launch {
@@ -111,6 +120,12 @@ class CoinDetailFragment : Fragment() {
         bindPercentField(binding.detailAtlChange, md?.atlChangePercentage?.get("usd"))
 
         // Greeks
+        binding.greeksTitle.text = getString(R.string.greek_indicators_fmt, state.greeksDays)
+        if (state.greeks == null && state.priceHistory == null) {
+            binding.greeksLoading.visibility = View.VISIBLE
+        } else {
+            binding.greeksLoading.visibility = View.GONE
+        }
         populateGreeks(state.greeks)
 
         // Market Data
@@ -131,6 +146,14 @@ class CoinDetailFragment : Fragment() {
 
         // About
         populateDescription(detail)
+    }
+
+    private fun applyGreeksDays() {
+        val text = binding.greeksDaysInput.text?.toString() ?: return
+        val days = text.toIntOrNull() ?: return
+        if (days > 0) {
+            viewModel.updateDays(days)
+        }
     }
 
     private fun populateGreeks(greeks: CryptoGreeks?) {

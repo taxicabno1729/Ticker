@@ -59,4 +59,10 @@
     <string name="na">N/A</string>
     <string name="show_more">Show more</string>
     <string name="show_less">Show less</string>
+    <string name="days_hint">Period (days)</string>
+    <string name="apply">Apply</string>
+    <string name="greek_indicators_fmt">Greek Indicators (%1$dd)</string>
+    <string name="portfolio_greeks">Portfolio Greeks</string>
+    <string name="per_coin_breakdown">Per-Coin Breakdown</string>
+    <string name="weight_label">Weight</string>
 </resources>
