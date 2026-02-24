@@ -30,7 +30,7 @@ object Erc20Tokens {
         TokenInfo("LINK", "Chainlink", "0x514910771AF9Ca656af840dff83E8264EcF986CA", 18, "chainlink"),
         TokenInfo("AAVE", "Aave", "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9", 18, "aave"),
         TokenInfo("SHIB", "Shiba Inu", "0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE", 18, "shiba-inu"),
-        TokenInfo("MATIC", "Polygon", "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0", 18, "matic-network"),
+        TokenInfo("MATIC", "Polygon (ERC-20)", "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0", 18, "polygon-ecosystem-token"),
         TokenInfo("LDO", "Lido DAO", "0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32", 18, "lido-dao")
     )
 }

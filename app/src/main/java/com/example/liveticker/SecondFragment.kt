@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.liveticker.data.ChainConfigs
 import com.example.liveticker.data.CoinRepository
 import com.example.liveticker.data.CryptoGreeks
 import com.example.liveticker.data.PortfolioToken
@@ -17,6 +18,7 @@ import com.example.liveticker.data.Resource
 import com.example.liveticker.data.WalletRepository
 import com.example.liveticker.databinding.FragmentSecondBinding
 import com.example.liveticker.ui.PortfolioAdapter
+import com.example.liveticker.ui.PortfolioListItem
 import com.example.liveticker.ui.PortfolioViewModel
 import com.example.liveticker.ui.PortfolioViewModelFactory
 import com.example.liveticker.ui.TokenGreeksAdapter
@@ -120,17 +122,19 @@ class SecondFragment : Fragment() {
                         val totalValue = tokens.sumOf { it.valueUsd }
                         binding.portfolioTotalValue.text = String.format("$%,.2f", totalValue)
 
-                        // Find ETH balance
-                        val ethEntry = tokens.find { it.symbol == "ETH" && it.chainName == "Ethereum" }
-                            ?: tokens.find { it.symbol == "ETH" }
-                        val ethBalanceDisplay = ethEntry?.balance ?: 0.0
-                        binding.portfolioEthBalance.text = String.format("%.4f ETH", ethBalanceDisplay)
+                        // Calculate total ETH balance across all chains
+                        val totalEthBalance = tokens
+                            .filter { it.symbol == "ETH" }
+                            .sumOf { it.balance }
+                        binding.portfolioEthBalance.text = String.format("%.4f ETH (all chains)", totalEthBalance)
 
                         if (tokens.isEmpty()) {
                             binding.portfolioErrorContainer.visibility = View.VISIBLE
                             binding.portfolioEmpty.text = getString(R.string.no_tokens_found)
                         } else {
-                            portfolioAdapter.submitList(tokens)
+                            // Group tokens by chain and create list items with headers
+                            val listItems = createGroupedPortfolioList(tokens)
+                            portfolioAdapter.submitList(listItems)
                             lastPortfolioTokens = tokens
                             binding.portfolioGreeksCard.visibility = View.VISIBLE
                             viewModel.loadPortfolioGreeks(tokens)
@@ -173,6 +177,51 @@ class SecondFragment : Fragment() {
                 }
             }
         }
+    }
+
+    /**
+     * Groups tokens by chain and creates a list with headers for each chain section.
+     * Chains are sorted by total value (descending), and tokens within each chain
+     * are also sorted by value (descending).
+     */
+    private fun createGroupedPortfolioList(tokens: List<PortfolioToken>): List<PortfolioListItem> {
+        // Get chain order from ChainConfigs to maintain consistent ordering
+        val chainOrder = ChainConfigs.ALL_CHAINS.map { it.name }
+        
+        // Group tokens by chain
+        val grouped = tokens.groupBy { it.chainName }
+        
+        val listItems = mutableListOf<PortfolioListItem>()
+        
+        // Sort chains by their total value (descending)
+        val sortedChains = grouped.keys.sortedByDescending { chainName ->
+            grouped[chainName]?.sumOf { it.valueUsd } ?: 0.0
+        }
+        
+        for (chainName in sortedChains) {
+            val chainTokens = grouped[chainName] ?: continue
+            
+            // Calculate chain total value
+            val chainTotalValue = chainTokens.sumOf { it.valueUsd }
+            
+            // Get chain symbol from the first token (all tokens in chain should have same native symbol)
+            val chainSymbol = chainTokens.firstOrNull()?.symbol ?: ""
+            
+            // Add header for this chain
+            listItems.add(PortfolioListItem.Header(
+                chainName = chainName,
+                chainSymbol = chainSymbol,
+                totalValue = chainTotalValue
+            ))
+            
+            // Add tokens for this chain, sorted by value (descending)
+            val sortedTokens = chainTokens.sortedByDescending { it.valueUsd }
+            for (token in sortedTokens) {
+                listItems.add(PortfolioListItem.Token(token))
+            }
+        }
+        
+        return listItems
     }
 
     private fun loadPortfolio() {
