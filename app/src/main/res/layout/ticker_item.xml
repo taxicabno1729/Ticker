@@ -1,88 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingHorizontal="16dp"
-    android:paddingVertical="14dp"
-    android:gravity="center_vertical"
-    android:background="?attr/selectableItemBackground">
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="4dp"
+    app:cardBackgroundColor="@color/surface_1"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="0dp"
+    style="@style/Widget.Material3.CardView.Filled">
 
-    <!-- Coin icon -->
-    <FrameLayout
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:layout_marginEnd="14dp"
-        android:background="@drawable/circle_placeholder">
-
-        <TextView
-            android:id="@+id/ticker_icon_text"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:textColor="@color/text_primary"
-            tools:text="B" />
-    </FrameLayout>
-
-    <!-- Name + Symbol -->
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:background="?attr/selectableItemBackground">
 
-        <TextView
-            android:id="@+id/ticker_name"
+        <!-- Coin Icon - Material 3 Shape -->
+        <FrameLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/circle_placeholder">
+
+            <TextView
+                android:id="@+id/ticker_icon_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/onPrimaryContainer" />
+        </FrameLayout>
+
+        <!-- Name + Symbol -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/ticker_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.LiveTicker.TitleMedium"
+                tools:text="Bitcoin" />
+
+            <TextView
+                android:id="@+id/ticker_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textAppearance="@style/TextAppearance.LiveTicker.LabelMedium"
+                android:textAllCaps="true"
+                android:letterSpacing="0.06"
+                tools:text="BTC" />
+        </LinearLayout>
+
+        <!-- Price + Change -->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:textColor="@color/text_primary"
-            android:letterSpacing="0.01"
-            tools:text="Bitcoin" />
+            android:orientation="vertical"
+            android:gravity="end">
 
-        <TextView
-            android:id="@+id/ticker_symbol"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:textSize="12sp"
-            android:textColor="@color/text_secondary"
-            android:textAllCaps="true"
-            android:letterSpacing="0.06"
-            tools:text="BTC" />
+            <TextView
+                android:id="@+id/ticker_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.LiveTicker.TitleMedium"
+                android:fontFamily="monospace"
+                android:textColor="@color/onSurface"
+                tools:text="$43,250.00" />
+
+            <!-- Change Chip - Material 3 Style -->
+            <com.google.android.material.chip.Chip
+                android:id="@+id/ticker_change_chip"
+                style="@style/Widget.Material3.Chip.Assist"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginTop="4dp"
+                android:textSize="12sp"
+                android:fontFamily="monospace"
+                app:chipMinHeight="32dp"
+                app:chipStartPadding="8dp"
+                app:chipEndPadding="8dp"
+                tools:text="+2.34%"
+                tools:chipBackgroundColor="@color/primaryContainer"
+                tools:textColor="@color/onPrimaryContainer" />
+
+            <TextView
+                android:id="@+id/ticker_change"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:fontFamily="monospace"
+                android:visibility="gone"
+                tools:text="+2.34%"
+                tools:visibility="visible" />
+        </LinearLayout>
+
     </LinearLayout>
 
-    <!-- Price + Change -->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="end">
-
-        <TextView
-            android:id="@+id/ticker_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/text_data"
-            android:fontFamily="monospace"
-            tools:text="$43,250.00" />
-
-        <TextView
-            android:id="@+id/ticker_change"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:textColor="@color/accent_green"
-            android:fontFamily="monospace"
-            tools:text="+2.34%" />
-    </LinearLayout>
-
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

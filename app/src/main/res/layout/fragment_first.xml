@@ -5,124 +5,152 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background_dark"
+    android:background="@color/background"
     tools:context=".FirstFragment">
 
-    <!-- Wallet Card -->
-    <androidx.cardview.widget.CardView
+    <!-- Wallet Card - Material 3 Elevated -->
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="14dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
-        app:cardBackgroundColor="@android:color/transparent"
+        app:cardBackgroundColor="@color/surfaceVariant"
         app:cardCornerRadius="16dp"
-        app:cardElevation="0dp">
+        app:cardElevation="0dp"
+        style="@style/Widget.Material3.CardView.Filled">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:background="@drawable/bg_wallet_card">
+            android:padding="20dp">
 
-            <TextView
-                android:id="@+id/walletAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="11sp"
-                android:fontFamily="monospace"
-                android:textColor="@color/text_secondary"
-                android:ellipsize="middle"
-                android:singleLine="true"
-                tools:text="0x1234...abcd" />
-
-            <TextView
-                android:id="@+id/walletBalance"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingTop="4dp"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:fontFamily="monospace"
-                android:textColor="@color/accent_amber"
-                android:visibility="gone"
-                tools:text="0.0000 ETH" />
-
-            <!-- Row 1: Connect + Portfolio -->
+            <!-- Wallet Icon + Address -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="14dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/circle_placeholder"
+                    android:tint="@color/primary" />
+
+                <TextView
+                    android:id="@+id/walletAddress"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:textSize="12sp"
+                    android:fontFamily="monospace"
+                    android:textColor="@color/onSurfaceVariant"
+                    android:ellipsize="middle"
+                    android:singleLine="true"
+                    tools:text="0x1234...abcd" />
+            </LinearLayout>
+
+            <!-- Balance -->
+            <TextView
+                android:id="@+id/walletBalance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:fontFamily="monospace"
+                android:textColor="@color/onPrimaryContainer"
+                android:visibility="gone"
+                tools:text="0.0000 ETH"
+                tools:visibility="visible" />
+
+            <!-- Action Buttons - Row 1 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
                 android:gravity="center">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/connectButton"
+                    style="@style/Widget.Material3.Button"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="56dp"
                     android:layout_weight="1"
-                    android:layout_marginEnd="4dp"
+                    android:layout_marginEnd="8dp"
                     android:text="@string/connect_wallet"
-                    android:textSize="12sp" />
+                    app:icon="@drawable/circle_placeholder"
+                    app:iconGravity="textStart" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/portfolioButton"
                     style="@style/Widget.Material3.Button.TonalButton"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="56dp"
                     android:layout_weight="1"
-                    android:layout_marginHorizontal="4dp"
+                    android:layout_marginStart="8dp"
                     android:text="@string/view_portfolio"
-                    android:textSize="12sp"
                     android:enabled="false" />
             </LinearLayout>
 
-            <!-- Row 2: Prediction Markets + Market Browser -->
+            <!-- Action Buttons - Row 2 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="8dp"
                 android:gravity="center">
 
                 <com.google.android.material.button.MaterialButton
-                    style="@style/Widget.Material3.Button.TonalButton"
                     android:id="@+id/predictionMarketsButton"
+                    style="@style/Widget.Material3.Button.TonalButton"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:layout_weight="1"
-                    android:layout_marginEnd="4dp"
+                    android:layout_marginEnd="8dp"
                     android:text="@string/view_prediction_markets"
-                    android:textSize="12sp"
                     android:enabled="false" />
 
                 <com.google.android.material.button.MaterialButton
-                    style="@style/Widget.Material3.Button.TonalButton"
                     android:id="@+id/marketBrowserButton"
+                    style="@style/Widget.Material3.Button.TonalButton"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:layout_weight="1"
-                    android:layout_marginStart="4dp"
-                    android:text="@string/browse_markets"
-                    android:textSize="12sp" />
+                    android:layout_marginStart="8dp"
+                    android:text="@string/browse_markets" />
             </LinearLayout>
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
-    <!-- Search -->
-    <SearchView
-        android:id="@+id/searchView"
+    <!-- Search - Material 3 Search Bar Style -->
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="14dp"
-        android:layout_marginBottom="6dp"
-        android:queryHint="@string/search_hint"
-        android:iconifiedByDefault="false"
-        android:background="@drawable/bg_search_field" />
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="8dp"
+        app:cardBackgroundColor="@color/surface_1"
+        app:cardCornerRadius="28dp"
+        app:cardElevation="0dp"
+        style="@style/Widget.Material3.CardView.Filled">
 
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:queryHint="@string/search_hint"
+            android:iconifiedByDefault="false"
+            app:searchIcon="@drawable/circle_placeholder"
+            app:closeIcon="@drawable/circle_placeholder"
+            app:queryBackground="@android:color/transparent"
+            android:theme="@style/ThemeOverlay.Material3.Search" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Content Area -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -130,15 +158,22 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="16dp" />
 
-        <ProgressBar
+        <!-- Loading State -->
+        <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/tickerLoading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_gravity="center"
-            android:visibility="gone" />
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:indicatorColor="@color/primary"
+            app:trackColor="@color/surfaceVariant" />
 
+        <!-- Error State -->
         <LinearLayout
             android:id="@+id/tickerError"
             android:layout_width="match_parent"
@@ -149,20 +184,27 @@
             android:padding="32dp"
             android:visibility="gone">
 
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/circle_placeholder"
+                android:tint="@color/onSurfaceVariant" />
+
             <TextView
                 android:id="@+id/tickerErrorText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:text="@string/error_loading_portfolio"
-                android:textColor="@color/text_secondary"
-                android:textSize="14sp" />
+                android:textAppearance="@style/TextAppearance.LiveTicker.BodyMedium"
+                android:gravity="center" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/tickerRetryButton"
-                style="@style/Widget.Material3.Button.OutlinedButton"
+                style="@style/Widget.Material3.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/retry" />
         </LinearLayout>
     </FrameLayout>
