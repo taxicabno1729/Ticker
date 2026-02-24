@@ -3,6 +3,7 @@ package com.example.liveticker.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -16,7 +17,8 @@ sealed class PortfolioListItem {
     data class Header(
         val chainName: String,
         val chainSymbol: String,
-        val totalValue: Double
+        val totalValue: Double,
+        val isExpanded: Boolean = true
     ) : PortfolioListItem() {
         override val id: String get() = "header_$chainName"
     }
@@ -28,7 +30,9 @@ sealed class PortfolioListItem {
     }
 }
 
-class PortfolioAdapter : ListAdapter<PortfolioListItem, RecyclerView.ViewHolder>(DiffCallback()) {
+class PortfolioAdapter(
+    private val onChainClick: (chainName: String) -> Unit
+) : ListAdapter<PortfolioListItem, RecyclerView.ViewHolder>(DiffCallback()) {
 
     companion object {
         private const val TYPE_HEADER = 0
@@ -47,7 +51,7 @@ class PortfolioAdapter : ListAdapter<PortfolioListItem, RecyclerView.ViewHolder>
             TYPE_HEADER -> {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.chain_header_item, parent, false)
-                HeaderViewHolder(view)
+                HeaderViewHolder(view, onChainClick)
             }
             else -> {
                 val view = LayoutInflater.from(parent.context)
@@ -64,15 +68,31 @@ class PortfolioAdapter : ListAdapter<PortfolioListItem, RecyclerView.ViewHolder>
         }
     }
 
-    class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class HeaderViewHolder(
+        itemView: View,
+        private val onChainClick: (chainName: String) -> Unit
+    ) : RecyclerView.ViewHolder(itemView) {
         private val chainName: TextView = itemView.findViewById(R.id.chain_name)
         private val chainValue: TextView = itemView.findViewById(R.id.chain_value)
         private val chainIconText: TextView = itemView.findViewById(R.id.chain_icon_text)
+        private val expandIcon: ImageView = itemView.findViewById(R.id.expand_icon)
+        private val headerContainer: View = itemView.findViewById(R.id.header_container)
 
         fun bind(header: PortfolioListItem.Header) {
             chainName.text = header.chainName
             chainValue.text = String.format("$%,.2f", header.totalValue)
             chainIconText.text = header.chainSymbol.take(1).uppercase()
+
+            // Update expand/collapse icon
+            expandIcon.setImageResource(
+                if (header.isExpanded) R.drawable.ic_expand_less
+                else R.drawable.ic_expand_more
+            )
+
+            // Set click listener
+            headerContainer.setOnClickListener {
+                onChainClick(header.chainName)
+            }
         }
     }
 
