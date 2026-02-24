@@ -1,0 +1,48 @@
+package {{package_name}}.ui
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import {{package_name}}.R
+import {{package_name}}.data.{{item_type}}
+
+class {{name}}Adapter(
+    private val onItemClick: ({{item_type}}) -> Unit = {}
+) : ListAdapter<{{item_type}}, {{name}}Adapter.{{name}}ViewHolder>(DiffCallback()) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): {{name}}ViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.{{layout_name}}, parent, false)
+        return {{name}}ViewHolder(view, onItemClick)
+    }
+
+    override fun onBindViewHolder(holder: {{name}}ViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
+
+    class {{name}}ViewHolder(
+        itemView: View,
+        private val onItemClick: ({{item_type}}) -> Unit
+    ) : RecyclerView.ViewHolder(itemView) {
+        // val itemText: TextView = itemView.findViewById(R.id.item_text)
+
+        fun bind(item: {{item_type}}) {
+            // itemText.text = item.name
+            itemView.setOnClickListener { onItemClick(item) }
+        }
+    }
+
+    class DiffCallback : DiffUtil.ItemCallback<{{item_type}}>() {
+        override fun areItemsTheSame(oldItem: {{item_type}}, newItem: {{item_type}}): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: {{item_type}}, newItem: {{item_type}}): Boolean {
+            return oldItem == newItem
+        }
+    }
+}

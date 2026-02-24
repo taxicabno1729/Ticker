@@ -1,0 +1,68 @@
+package {{package_name}}
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import {{package_name}}.data.Resource
+import {{package_name}}.databinding.Fragment{{name}}Binding
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+
+class {{name}}Fragment : Fragment() {
+
+    private var _binding: Fragment{{name}}Binding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var viewModel: {{name}}ViewModel
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = Fragment{{name}}Binding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val factory = {{name}}ViewModelFactory({{repository}}Repository())
+        viewModel = ViewModelProvider(this, factory)[{{name}}ViewModel::class.java]
+
+        setupUI()
+        observeViewModel()
+    }
+
+    private fun setupUI() {
+        // Initialize RecyclerView, click listeners, etc.
+    }
+
+    private fun observeViewModel() {
+        lifecycleScope.launch {
+            viewModel.{{state_name}}.collectLatest { resource ->
+                when (resource) {
+                    is Resource.Loading -> {
+                        // Show loading state
+                    }
+                    is Resource.Success -> {
+                        // Update UI with data
+                    }
+                    is Resource.Error -> {
+                        Toast.makeText(context, resource.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}

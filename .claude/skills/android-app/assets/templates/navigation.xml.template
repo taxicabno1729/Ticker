@@ -1,0 +1,15 @@
+    <fragment
+        android:id="@+id/{{name}}Fragment"
+        android:name="{{package_name}}.{{name}}Fragment"
+        android:label="{{label}}"
+        tools:layout="@layout/fragment_{{layout_name}}">
+
+        <argument
+            android:name="{{arg_name}}"
+            app:argType="string"
+            android:defaultValue="" />
+
+        <action
+            android:id="@+id/action_{{name}}Fragment_to_{{destination}}"
+            app:destination="@id/{{destination}}" />
+    </fragment>
