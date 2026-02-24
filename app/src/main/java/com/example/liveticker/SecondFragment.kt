@@ -37,6 +37,10 @@ class SecondFragment : Fragment() {
     private var walletAddress: String = ""
     private var breakdownExpanded = false
     private var lastPortfolioTokens: List<PortfolioToken>? = null
+    
+    // Track expanded state for each chain
+    private val expandedChains = mutableSetOf<String>()
+    private var currentGroupedItems: List<PortfolioListItem> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +60,9 @@ class SecondFragment : Fragment() {
         val factory = PortfolioViewModelFactory(walletRepository, coinRepository)
         viewModel = ViewModelProvider(this, factory)[PortfolioViewModel::class.java]
 
-        portfolioAdapter = PortfolioAdapter()
+        portfolioAdapter = PortfolioAdapter { chainName ->
+            toggleChainExpansion(chainName)
+        }
         binding.portfolioRecycler.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = portfolioAdapter
@@ -132,9 +138,17 @@ class SecondFragment : Fragment() {
                             binding.portfolioErrorContainer.visibility = View.VISIBLE
                             binding.portfolioEmpty.text = getString(R.string.no_tokens_found)
                         } else {
-                            // Group tokens by chain and create list items with headers
-                            val listItems = createGroupedPortfolioList(tokens)
-                            portfolioAdapter.submitList(listItems)
+                            // Initialize expanded state for new chains (all collapsed by default)
+                            val chainGroups = tokens.groupBy { it.chainName }
+                            chainGroups.keys.forEach { chainName ->
+                                // Chains start collapsed; user must tap to expand
+                                // expandedChains only contains chains that ARE expanded
+                            }
+                            
+                            // Create grouped list and update adapter
+                            currentGroupedItems = createGroupedPortfolioList(tokens)
+                            updateVisibleItems()
+                            
                             lastPortfolioTokens = tokens
                             binding.portfolioGreeksCard.visibility = View.VISIBLE
                             viewModel.loadPortfolioGreeks(tokens)
@@ -180,14 +194,45 @@ class SecondFragment : Fragment() {
     }
 
     /**
+     * Toggle expansion state for a chain and refresh the list
+     */
+    private fun toggleChainExpansion(chainName: String) {
+        if (expandedChains.contains(chainName)) {
+            expandedChains.remove(chainName)
+        } else {
+            expandedChains.add(chainName)
+        }
+        updateVisibleItems()
+    }
+
+    /**
+     * Update the adapter with visible items based on expanded state
+     */
+    private fun updateVisibleItems() {
+        val visibleItems = currentGroupedItems.filter { item ->
+            when (item) {
+                is PortfolioListItem.Header -> true // Always show headers
+                is PortfolioListItem.Token -> {
+                    // Show token only if its chain is expanded
+                    expandedChains.contains(item.portfolioToken.chainName)
+                }
+            }
+        }.map { item ->
+            // Update header with current expansion state
+            when (item) {
+                is PortfolioListItem.Header -> item.copy(isExpanded = expandedChains.contains(item.chainName))
+                else -> item
+            }
+        }
+        portfolioAdapter.submitList(visibleItems)
+    }
+
+    /**
      * Groups tokens by chain and creates a list with headers for each chain section.
      * Chains are sorted by total value (descending), and tokens within each chain
      * are also sorted by value (descending).
      */
     private fun createGroupedPortfolioList(tokens: List<PortfolioToken>): List<PortfolioListItem> {
-        // Get chain order from ChainConfigs to maintain consistent ordering
-        val chainOrder = ChainConfigs.ALL_CHAINS.map { it.name }
-        
         // Group tokens by chain
         val grouped = tokens.groupBy { it.chainName }
         
@@ -211,7 +256,8 @@ class SecondFragment : Fragment() {
             listItems.add(PortfolioListItem.Header(
                 chainName = chainName,
                 chainSymbol = chainSymbol,
-                totalValue = chainTotalValue
+                totalValue = chainTotalValue,
+                isExpanded = expandedChains.contains(chainName)
             ))
             
             // Add tokens for this chain, sorted by value (descending)

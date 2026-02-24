@@ -7,12 +7,16 @@
     android:background="@color/card_dark">
 
     <LinearLayout
+        android:id="@+id/header_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingHorizontal="16dp"
         android:paddingVertical="10dp"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true">
 
         <!-- Chain icon -->
         <FrameLayout
@@ -50,9 +54,18 @@
             android:textSize="13sp"
             android:textStyle="bold"
             android:textColor="@color/accent_green"
-            android:minWidth="80dp"
+            android:minWidth="70dp"
             android:gravity="end"
             tools:text="$1,234.56" />
+
+        <!-- Expand/Collapse Icon -->
+        <ImageView
+            android:id="@+id/expand_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_expand_less"
+            android:contentDescription="@string/expand_collapse" />
     </LinearLayout>
 
     <View

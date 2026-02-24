@@ -65,4 +65,5 @@
     <string name="portfolio_greeks">Portfolio Greeks</string>
     <string name="per_coin_breakdown">Per-Coin Breakdown</string>
     <string name="weight_label">Weight</string>
+    <string name="expand_collapse">Expand or collapse</string>
 </resources>
