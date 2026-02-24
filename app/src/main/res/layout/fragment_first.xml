@@ -12,23 +12,27 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        app:cardBackgroundColor="@color/card_dark"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="4dp">
+        android:layout_marginHorizontal="14dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="8dp"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:background="@drawable/bg_wallet_card">
 
             <TextView
                 android:id="@+id/walletAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="13sp"
+                android:textSize="11sp"
+                android:fontFamily="monospace"
                 android:textColor="@color/text_secondary"
                 android:ellipsize="middle"
                 android:singleLine="true"
@@ -40,17 +44,19 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingTop="4dp"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@color/text_primary"
+                android:fontFamily="monospace"
+                android:textColor="@color/accent_amber"
                 android:visibility="gone"
-                tools:text="Balance: 0.0 ETH" />
+                tools:text="0.0000 ETH" />
 
+            <!-- Row 1: Connect + Portfolio -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="14dp"
                 android:gravity="center">
 
                 <com.google.android.material.button.MaterialButton
@@ -64,6 +70,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/portfolioButton"
+                    style="@style/Widget.Material3.Button.TonalButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -73,14 +80,16 @@
                     android:enabled="false" />
             </LinearLayout>
 
+            <!-- Row 2: Prediction Markets + Market Browser -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="6dp"
                 android:gravity="center">
 
                 <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.Material3.Button.TonalButton"
                     android:id="@+id/predictionMarketsButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -91,6 +100,7 @@
                     android:enabled="false" />
 
                 <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.Material3.Button.TonalButton"
                     android:id="@+id/marketBrowserButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -99,17 +109,19 @@
                     android:text="@string/browse_markets"
                     android:textSize="12sp" />
             </LinearLayout>
-
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <!-- Search -->
     <SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp"
+        android:layout_marginHorizontal="14dp"
+        android:layout_marginBottom="6dp"
         android:queryHint="@string/search_hint"
-        android:iconifiedByDefault="false" />
+        android:iconifiedByDefault="false"
+        android:background="@drawable/bg_search_field" />
 
     <FrameLayout
         android:layout_width="match_parent"

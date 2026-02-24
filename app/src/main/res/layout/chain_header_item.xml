@@ -11,18 +11,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="10dp"
         android:gravity="center_vertical"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true">
+
+        <!-- Left accent stripe -->
+        <View
+            android:layout_width="3dp"
+            android:layout_height="48dp"
+            android:background="@color/primary" />
 
         <!-- Chain icon -->
         <FrameLayout
             android:id="@+id/chain_icon_container"
             android:layout_width="28dp"
             android:layout_height="28dp"
+            android:layout_marginStart="12dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/circle_placeholder">
 
@@ -33,7 +38,7 @@
                 android:gravity="center"
                 android:textSize="11sp"
                 android:textStyle="bold"
-                android:textColor="@color/text_primary"
+                android:textColor="@color/primary"
                 tools:text="E" />
         </FrameLayout>
 
@@ -42,28 +47,31 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="14sp"
+            android:textSize="13sp"
             android:textStyle="bold"
             android:textColor="@color/text_primary"
+            android:letterSpacing="0.02"
             tools:text="Ethereum" />
 
         <TextView
             android:id="@+id/chain_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="13sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="@color/accent_green"
-            android:minWidth="70dp"
+            android:fontFamily="monospace"
+            android:minWidth="80dp"
             android:gravity="end"
             tools:text="$1,234.56" />
 
-        <!-- Expand/Collapse Icon -->
         <ImageView
             android:id="@+id/expand_icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_marginStart="8dp"
+            android:layout_marginEnd="12dp"
+            android:alpha="0.5"
             android:src="@drawable/ic_expand_less"
             android:contentDescription="@string/expand_collapse" />
     </LinearLayout>

@@ -5,15 +5,15 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:paddingHorizontal="16dp"
-    android:paddingVertical="12dp"
+    android:paddingVertical="13dp"
     android:gravity="center_vertical"
     android:background="?attr/selectableItemBackground">
 
-    <!-- Token icon placeholder -->
+    <!-- Token icon -->
     <FrameLayout
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginEnd="12dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="14dp"
         android:background="@drawable/circle_placeholder">
 
         <TextView
@@ -21,12 +21,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="@color/text_primary"
             tools:text="E" />
     </FrameLayout>
 
+    <!-- Symbol + Name -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -39,14 +40,16 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textStyle="bold"
+            android:textColor="@color/text_primary"
             tools:text="ETH" />
 
         <TextView
             android:id="@+id/token_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:textSize="11sp"
-            android:textColor="?android:attr/textColorSecondary"
+            android:textColor="@color/text_secondary"
             tools:text="Ethereum" />
 
         <TextView
@@ -59,6 +62,7 @@
             tools:text="Polygon" />
     </LinearLayout>
 
+    <!-- Balance + Price per token -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -71,23 +75,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="13sp"
+            android:textColor="@color/text_data"
+            android:fontFamily="monospace"
             tools:text="1.2345" />
 
         <TextView
             android:id="@+id/token_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:textSize="10sp"
-            android:textColor="?android:attr/textColorSecondary"
+            android:textColor="@color/text_hint"
+            android:fontFamily="monospace"
             tools:text="$1,800.00" />
     </LinearLayout>
 
+    <!-- Total USD value -->
     <TextView
         android:id="@+id/token_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"
         android:textStyle="bold"
+        android:fontFamily="monospace"
         android:minWidth="80dp"
         android:gravity="end"
         tools:text="$2,222.00" />

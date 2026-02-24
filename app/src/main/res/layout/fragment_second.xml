@@ -12,32 +12,36 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        app:cardBackgroundColor="@color/portfolio_header"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="4dp">
+        android:layout_marginHorizontal="14dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="8dp"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="18dp"
+            android:background="@drawable/bg_portfolio_header">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/portfolio_title"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/white" />
+                android:textSize="11sp"
+                android:textAllCaps="true"
+                android:letterSpacing="0.12"
+                android:textColor="@color/text_secondary" />
 
             <TextView
                 android:id="@+id/portfolio_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="11sp"
-                android:textColor="@android:color/white"
-                android:alpha="0.7"
+                android:fontFamily="monospace"
+                android:textColor="@color/text_hint"
                 android:ellipsize="middle"
                 android:singleLine="true"
                 android:layout_marginTop="2dp"
@@ -47,10 +51,11 @@
                 android:id="@+id/portfolio_total_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="32sp"
+                android:textSize="36sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/white"
-                android:layout_marginTop="8dp"
+                android:fontFamily="monospace"
+                android:textColor="@color/text_primary"
+                android:layout_marginTop="10dp"
                 tools:text="$1,234.56" />
 
             <TextView
@@ -58,8 +63,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:textColor="@android:color/white"
-                android:alpha="0.85"
+                android:fontFamily="monospace"
+                android:textColor="@color/accent_amber"
                 android:layout_marginTop="2dp"
                 tools:text="0.5000 ETH" />
         </LinearLayout>
@@ -329,7 +334,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingHorizontal="16dp"
-        android:paddingVertical="8dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="8dp"
         android:gravity="center_vertical">
 
         <TextView
