@@ -20,12 +20,22 @@ RPC URLs and API keys are defined in `gradle.properties` as `buildConfigField` e
 
 ## Skills
 
-An `android-app` skill is available at `.claude/skills/android-app/`. Use it when creating or modifying Fragments, ViewModels, Repositories, Adapters, layouts, or nav graph entries. It provides:
+### `android-app` — `.claude/skills/android-app/`
+
+Use when creating or modifying Fragments, ViewModels, Repositories, Adapters, layouts, or nav graph entries. Provides:
 
 - **Templates** in `assets/templates/` with `{{variable}}` placeholders — see `SKILL.md` for the full variable reference.
 - **New screen workflow**: follow `references/new-screen-workflow.md` for the 7-step process (data model → repository → viewmodel → layout → fragment → nav graph → navigation action).
 - **Architecture & conventions** reference docs in `references/`.
 
+### `git` — `.claude/skills/git/`
+
+Follow this skill's workflow for all git operations. Key rules:
+
+- Always `git status` before starting new work.
+- Commit or stash existing changes, return to `main`, `git pull origin main`, then create a new feature branch.
+- One feature = one branch = one PR. Never start new work on an old feature branch.
+- Commit message format: `<type>: <short summary>` (types: `feat`, `fix`, `docs`, `refactor`, `chore`).
 ## Architecture
 
 **MVVM + Repository pattern** with Jetpack Navigation (single-activity, fragment-based). No Compose — all UI is XML layouts with View Binding.

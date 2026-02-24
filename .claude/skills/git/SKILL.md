@@ -1,6 +1,6 @@
 ---
 name: git
-description: Git version control workflows and commands with strict feature branch discipline. Use when performing git operations - ALWAYS check status, commit/stash changes, return to main, sync with remote, and create new branch before starting new work. Supports committing, branching, PR workflows, stashing, merging, and conflict resolution.
+description: Git version control workflows with strict feature branch discipline. Use when performing git operations - ALWAYS check status, commit/stash changes, return to main, sync with remote, create new branch, and create PR when done. Supports committing, branching, PR creation (gh pr create), stashing, merging, and conflict resolution.
 ---
 
 # Git Workflows
@@ -95,6 +95,68 @@ git push -u origin feature/name
 git checkout main
 git pull origin main
 git branch -d feature/name
+```
+
+## Creating Pull Requests
+
+After pushing a feature branch:
+
+### Option 1: GitHub CLI (Recommended)
+```bash
+# Create PR with title and body
+gh pr create --title "Add feature X" --body "Description of changes"
+
+# Create PR and open in browser
+gh pr create --web
+
+# Create draft PR
+gh pr create --draft --title "WIP: Feature X"
+```
+
+### Option 2: GitHub Web Interface
+```bash
+# Push branch first
+git push -u origin feature/name
+
+# GitHub outputs PR URL after push:
+# remote: Create a pull request for 'feature/name' on GitHub by visiting:
+# remote:      https://github.com/user/repo/pull/new/feature/name
+```
+
+### PR Best Practices
+
+**Small PRs:**
+- One logical change per PR
+- Easier to review, faster to merge
+- Reduces conflict risk
+
+**PR Description Template:**
+```markdown
+## Summary
+Brief description of what this PR does
+
+## Changes
+- Change 1
+- Change 2
+
+## Testing
+How to test this PR
+
+## Related
+Links to related issues/tickets
+```
+
+**After PR is Merged:**
+```bash
+# Switch to main and pull latest
+git checkout main
+git pull origin main
+
+# Delete local branch
+git branch -d feature/name
+
+# Delete remote branch (if not using "Delete branch" button)
+git push origin --delete feature/name
 ```
 
 ## Commit Best Practices
