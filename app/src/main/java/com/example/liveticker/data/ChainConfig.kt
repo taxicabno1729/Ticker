@@ -26,7 +26,7 @@ object ChainConfigs {
         name = "Polygon",
         symbol = "POL",
         rpcUrl = BuildConfig.RPC_POLYGON,
-        coingeckoNativeId = "matic-network",
+        coingeckoNativeId = "polygon-ecosystem-token",
         tokens = listOf(
             Erc20Tokens.TokenInfo("USDT", "Tether", "0xc2132D05D31c914a87C6611C10748AEb04B58e8F", 6, "tether"),
             Erc20Tokens.TokenInfo("USDC", "USD Coin", "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359", 6, "usd-coin"),
