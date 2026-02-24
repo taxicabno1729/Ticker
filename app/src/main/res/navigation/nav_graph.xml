@@ -52,6 +52,10 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+
+        <action
+            android:id="@+id/action_SecondFragment_to_CoinDetailFragment"
+            app:destination="@id/CoinDetailFragment" />
     </fragment>
     <dialog
         android:id="@+id/appKit"

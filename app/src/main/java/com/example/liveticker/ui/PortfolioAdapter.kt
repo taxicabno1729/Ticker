@@ -31,7 +31,8 @@ sealed class PortfolioListItem {
 }
 
 class PortfolioAdapter(
-    private val onChainClick: (chainName: String) -> Unit
+    private val onChainClick: (chainName: String) -> Unit,
+    private val onTokenClick: (PortfolioToken) -> Unit
 ) : ListAdapter<PortfolioListItem, RecyclerView.ViewHolder>(DiffCallback()) {
 
     companion object {
@@ -56,7 +57,7 @@ class PortfolioAdapter(
             else -> {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.portfolio_item, parent, false)
-                TokenViewHolder(view)
+                TokenViewHolder(view, onTokenClick)
             }
         }
     }
@@ -96,7 +97,10 @@ class PortfolioAdapter(
         }
     }
 
-    class TokenViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class TokenViewHolder(
+        itemView: View,
+        private val onTokenClick: (PortfolioToken) -> Unit
+    ) : RecyclerView.ViewHolder(itemView) {
         private val tokenSymbol: TextView = itemView.findViewById(R.id.token_symbol)
         private val tokenName: TextView = itemView.findViewById(R.id.token_name)
         private val tokenBalance: TextView = itemView.findViewById(R.id.token_balance)
@@ -125,6 +129,11 @@ class PortfolioAdapter(
 
             // Hide chain tag since we now have section headers
             tokenChain.visibility = View.GONE
+
+            // Set click listener for navigation to token detail
+            itemView.setOnClickListener {
+                onTokenClick(token)
+            }
         }
     }
 
