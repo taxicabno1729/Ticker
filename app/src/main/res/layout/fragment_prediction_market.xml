@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_dark"
+    tools:context=".PredictionMarketFragment">
+
+    <!-- Header Card -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        app:cardBackgroundColor="@color/prediction_market_header"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/prediction_markets_title"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/pm_wallet_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="@android:color/white"
+                android:alpha="0.7"
+                android:ellipsize="middle"
+                android:singleLine="true"
+                android:layout_marginTop="2dp"
+                tools:text="0x1234...abcd" />
+
+            <TextView
+                android:id="@+id/pm_total_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="8dp"
+                tools:text="$1,457.50" />
+
+            <TextView
+                android:id="@+id/pm_total_pnl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@android:color/white"
+                android:alpha="0.85"
+                android:layout_marginTop="2dp"
+                tools:text="+$32.50 (+2.28%)" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Metrics Card (Greeks Equivalent) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/pm_metrics_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginBottom="8dp"
+        app:cardBackgroundColor="@color/card_dark"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/prediction_market_metrics"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Loading -->
+            <ProgressBar
+                android:id="@+id/pm_metrics_loading"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone" />
+
+            <!-- Metrics Grid -->
+            <LinearLayout
+                android:id="@+id/pm_metrics_grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <!-- Row 1: Probability Delta / Probability Gamma -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginEnd="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/prob_delta_label"
+                            android:textSize="11sp"
+                            android:textColor="@color/text_secondary" />
+
+                        <TextView
+                            android:id="@+id/pm_prob_delta"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            tools:text="+2.45" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/prob_gamma_label"
+                            android:textSize="11sp"
+                            android:textColor="@color/text_secondary" />
+
+                        <TextView
+                            android:id="@+id/pm_prob_gamma"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary"
+                            tools:text="1.23" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Row 2: Time Theta / Liquidity Vega -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginEnd="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/time_theta_label"
+                            android:textSize="11sp"
+                            android:textColor="@color/text_secondary" />
+
+                        <TextView
+                            android:id="@+id/pm_time_theta"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            tools:text="-1.25" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/liquidity_vega_label"
+                            android:textSize="11sp"
+                            android:textColor="@color/text_secondary" />
+
+                        <TextView
+                            android:id="@+id/pm_liquidity_vega"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary"
+                            tools:text="0.85" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Row 3: Volume Rho / Implied Probability -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="12dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginEnd="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/volume_rho_label"
+                            android:textSize="11sp"
+                            android:textColor="@color/text_secondary" />
+
+                        <TextView
+                            android:id="@+id/pm_volume_rho"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            tools:text="+0.42" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/avg_implied_prob_label"
+                            android:textSize="11sp"
+                            android:textColor="@color/text_secondary" />
+
+                        <TextView
+                            android:id="@+id/pm_implied_prob"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary"
+                            tools:text="52.3%" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Per-Position Metrics Toggle -->
+                <TextView
+                    android:id="@+id/pm_metrics_toggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/per_position_breakdown"
+                    android:textSize="13sp"
+                    android:textColor="@color/primary"
+                    android:layout_marginBottom="8dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/position_metrics_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:nestedScrollingEnabled="false" />
+            </LinearLayout>
+
+            <!-- Error text -->
+            <TextView
+                android:id="@+id/pm_metrics_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/text_secondary"
+                android:visibility="gone" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Column Headers -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="@string/market_header"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_hint" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/outcome_header"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_hint"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pnl_header"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_hint"
+            android:minWidth="80dp"
+            android:gravity="end" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider" />
+
+    <!-- Positions List -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/pm_swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/pm_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <ProgressBar
+            android:id="@+id/pm_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/pm_error_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="32dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/pm_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_positions_found"
+                android:gravity="center"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/pm_retry_button"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/retry"
+                android:visibility="gone" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_back"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:text="@string/back" />
+
+</LinearLayout>

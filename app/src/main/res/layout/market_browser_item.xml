@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginHorizontal="12dp"
+    android:layout_marginVertical="6dp"
+    app:cardBackgroundColor="@color/card_dark"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="14dp"
+        android:background="?attr/selectableItemBackground">
+
+        <!-- Top Row: Question and Probability -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="top">
+
+            <TextView
+                android:id="@+id/market_question"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:maxLines="2"
+                android:ellipsize="end"
+                tools:text="Will Bitcoin hit $100k by end of 2025?" />
+
+            <TextView
+                android:id="@+id/probability_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:background="@drawable/outcome_background"
+                tools:text="72%"
+                tools:backgroundTint="@color/accent_green" />
+        </LinearLayout>
+
+        <!-- Stats Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/volume_24h"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="@color/text_secondary"
+                android:drawablePadding="4dp"
+                tools:text="Vol: $150K" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="12dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="@color/divider"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:id="@+id/liquidity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="@color/text_secondary"
+                tools:text="Liq: $2.5M" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="12dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="@color/divider"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:id="@+id/resolution_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="@color/text_secondary"
+                tools:text="Resolves: 2025-12-31" />
+        </LinearLayout>
+
+        <!-- Bottom Row: Category and Source -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textColor="@color/primary"
+                android:background="@drawable/category_background"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp"
+                tools:text="Crypto" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/source_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp"
+                android:background="@drawable/category_background"
+                tools:text="Polymarket"
+                tools:backgroundTint="@color/primary" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

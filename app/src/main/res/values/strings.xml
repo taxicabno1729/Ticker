@@ -66,4 +66,25 @@
     <string name="per_coin_breakdown">Per-Coin Breakdown</string>
     <string name="weight_label">Weight</string>
     <string name="expand_collapse">Expand or collapse</string>
+    
+    <!-- Prediction Markets -->
+    <string name="prediction_markets_title">Prediction Markets</string>
+    <string name="view_prediction_markets">My Positions</string>
+    <string name="browse_markets">Browse Markets</string>
+    <string name="prediction_market_metrics">Market Metrics</string>
+    <string name="no_positions_found">No prediction market positions found</string>
+    <string name="market_header">Market</string>
+    <string name="outcome_header">Outcome</string>
+    <string name="pnl_header">P&amp;L</string>
+    <string name="per_position_breakdown">Per-Position Breakdown</string>
+    
+    <!-- Prediction Market Metrics (Greeks Equivalent) -->
+    <string name="prob_delta_label">Prob Delta (Δ)</string>
+    <string name="prob_gamma_label">Prob Gamma (Γ)</string>
+    <string name="time_theta_label">Time Theta (Θ)</string>
+    <string name="liquidity_vega_label">Liquidity Vega (V)</string>
+    <string name="volume_rho_label">Volume Rho (P)</string>
+    <string name="avg_implied_prob_label">Avg Implied Prob</string>
+    
+    <string name="back">Back</string>
 </resources>

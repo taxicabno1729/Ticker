@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_dark"
+    tools:context=".MarketBrowserFragment">
+
+    <!-- Header -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        app:cardBackgroundColor="@color/prediction_market_header"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Prediction Markets"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Browse active markets from Polymarket and Kalshi"
+                android:textSize="12sp"
+                android:textColor="@android:color/white"
+                android:alpha="0.7"
+                android:layout_marginTop="4dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/loginButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Login to Kalshi"
+                android:textSize="12sp"
+                style="@style/Widget.Material3.Button.TonalButton" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Tab Layout -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/card_dark"
+        app:tabIndicatorColor="@color/primary"
+        app:tabSelectedTextColor="@color/text_primary"
+        app:tabTextColor="@color/text_secondary"
+        app:tabMode="fixed"
+        app:tabGravity="fill" />
+
+    <!-- Markets List -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/marketsRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <ProgressBar
+            android:id="@+id/loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/errorContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="32dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/errorText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Error loading markets"
+                android:gravity="center"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/retryButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/retry" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonBack"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:text="@string/back" />
+
+</LinearLayout>
