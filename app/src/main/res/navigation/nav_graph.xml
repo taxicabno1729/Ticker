@@ -91,6 +91,21 @@
         <action
             android:id="@+id/action_MarketBrowserFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+
+        <action
+            android:id="@+id/action_MarketBrowserFragment_to_KalshiLoginFragment"
+            app:destination="@id/KalshiLoginFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/KalshiLoginFragment"
+        android:name="com.example.liveticker.KalshiLoginFragment"
+        android:label="Kalshi Login"
+        tools:layout="@layout/fragment_kalshi_login">
+
+        <action
+            android:id="@+id/action_KalshiLoginFragment_to_MarketBrowserFragment"
+            app:destination="@id/MarketBrowserFragment" />
     </fragment>
 
     <dialog

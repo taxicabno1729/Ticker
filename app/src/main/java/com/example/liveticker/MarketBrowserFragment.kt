@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.liveticker.data.AuthRepository
 import com.example.liveticker.data.KalshiMarketDisplay
 import com.example.liveticker.data.PolymarketMarketDisplay
 import com.example.liveticker.data.PredictionMarketRepository
@@ -30,6 +31,7 @@ class MarketBrowserFragment : Fragment() {
 
     private lateinit var marketAdapter: MarketBrowserAdapter
     private lateinit var viewModel: MarketBrowserViewModel
+    private lateinit var authRepository: AuthRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,12 +44,14 @@ class MarketBrowserFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        authRepository = AuthRepository(requireContext())
         val repository = PredictionMarketRepository()
         val factory = MarketBrowserViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory)[MarketBrowserViewModel::class.java]
 
         setupRecyclerView()
         setupTabLayout()
+        setupAuthButton()
         
         binding.buttonBack.setOnClickListener {
             findNavController().navigateUp()
@@ -64,6 +68,30 @@ class MarketBrowserFragment : Fragment() {
 
         observeViewModel()
         viewModel.loadMarkets()
+    }
+
+    private fun setupAuthButton() {
+        updateAuthButton()
+        
+        binding.loginButton?.setOnClickListener {
+            if (authRepository.isKalshiLoggedIn()) {
+                // Show logout confirmation
+                authRepository.clearKalshiAuth()
+                Toast.makeText(context, "Logged out from Kalshi", Toast.LENGTH_SHORT).show()
+                updateAuthButton()
+            } else {
+                // Navigate to login
+                findNavController().navigate(R.id.action_MarketBrowserFragment_to_KalshiLoginFragment)
+            }
+        }
+    }
+
+    private fun updateAuthButton() {
+        binding.loginButton?.text = if (authRepository.isKalshiLoggedIn()) {
+            "Logout from Kalshi"
+        } else {
+            "Login to Kalshi"
+        }
     }
 
     private fun setupRecyclerView() {
@@ -199,6 +227,11 @@ class MarketBrowserFragment : Fragment() {
         binding.errorContainer.visibility = View.VISIBLE
         binding.errorText.text = message ?: "Error loading markets"
         binding.retryButton.visibility = View.VISIBLE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateAuthButton()
     }
 
     override fun onDestroyView() {

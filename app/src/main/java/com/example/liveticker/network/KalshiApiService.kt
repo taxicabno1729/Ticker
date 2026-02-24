@@ -1,17 +1,35 @@
 package com.example.liveticker.network
 
 import com.google.gson.annotations.SerializedName
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 /**
  * Kalshi API Service
- * Docs: https://trading-api.readme.io/
- * Base URL: https://trading-api.kalshi.com/v1
+ * Docs: https://docs.kalshi.com/
+ * Base URL: https://api.elections.kalshi.com/trade-api/v2/
  */
 interface KalshiApiService {
+
+    /**
+     * Login with email and password to get access token
+     */
+    @POST("login")
+    suspend fun login(
+        @Body request: KalshiLoginRequest
+    ): KalshiLoginResponse
+
+    /**
+     * Logout and invalidate token
+     */
+    @POST("logout")
+    suspend fun logout(
+        @Header("Authorization") authToken: String
+    )
 
     /**
      * Get all active markets
@@ -19,7 +37,8 @@ interface KalshiApiService {
     @GET("markets")
     suspend fun getMarkets(
         @Query("status") status: String = "active",
-        @Query("limit") limit: Int = 100
+        @Query("limit") limit: Int = 100,
+        @Header("Authorization") authToken: String? = null
     ): KalshiMarketsResponse
 
     /**
@@ -27,7 +46,8 @@ interface KalshiApiService {
      */
     @GET("markets/{ticker}")
     suspend fun getMarket(
-        @Path("ticker") ticker: String
+        @Path("ticker") ticker: String,
+        @Header("Authorization") authToken: String? = null
     ): KalshiMarketResponse
 
     /**
@@ -36,7 +56,8 @@ interface KalshiApiService {
     @GET("markets/{ticker}/orderbook")
     suspend fun getOrderBook(
         @Path("ticker") ticker: String,
-        @Query("depth") depth: Int = 10
+        @Query("depth") depth: Int = 10,
+        @Header("Authorization") authToken: String? = null
     ): KalshiOrderBookResponse
 
     /**
@@ -58,10 +79,23 @@ interface KalshiApiService {
     ): KalshiBalanceResponse
 
     companion object {
-        // Updated Kalshi API endpoint
+        // Kalshi API endpoint
         const val BASE_URL = "https://api.elections.kalshi.com/trade-api/v2/"
     }
 }
+
+// Auth Models
+data class KalshiLoginRequest(
+    val email: String,
+    val password: String
+)
+
+data class KalshiLoginResponse(
+    val token: String?,
+    @SerializedName("user_id") val userId: String?,
+    @SerializedName("email") val email: String?,
+    val message: String? // Error message if login fails
+)
 
 // Kalshi Data Models
 data class KalshiMarketsResponse(
@@ -81,7 +115,7 @@ data class KalshiMarket(
     @SerializedName("close_time") val closeTime: String?,
     @SerializedName("settlement_time") val settlementTime: String?,
     @SerializedName("expiration_time") val expirationTime: String?,
-    val status: String, // active, closed, settled
+    val status: String?, // active, closed, settled
     val category: String?,
     @SerializedName("yes_bid") val yesBid: Int?, // Price in cents (0-100)
     @SerializedName("yes_ask") val yesAsk: Int?,
