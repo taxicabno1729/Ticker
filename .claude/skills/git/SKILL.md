@@ -1,6 +1,6 @@
 ---
 name: git
-description: Git version control workflows and commands. Use when performing git operations including committing changes, branching, merging, rebasing, reviewing history, stashing, or resolving conflicts. Supports feature branch workflows, pull requests, and common GitHub operations.
+description: Git version control workflows and commands with strict feature branch discipline. Use when performing git operations - ALWAYS check status, commit/stash changes, return to main, sync with remote, and create new branch before starting new work. Supports committing, branching, PR workflows, stashing, merging, and conflict resolution.
 ---
 
 # Git Workflows
@@ -18,9 +18,63 @@ description: Git version control workflows and commands. Use when performing git
 | Check status | `git status` |
 | View log | `git log --oneline -10` |
 
+## Check Before Starting
+
+**Run this before any new work:**
+
+```bash
+# Check for uncommitted changes
+git status
+
+# If there are changes, either commit or stash:
+git add . && git commit -m "wip: current changes"  # Option A: commit
+git stash push -m "wip"                             # Option B: stash
+
+# Check current branch
+git branch --show-current
+
+# If not on main, switch to main
+git checkout main
+git pull origin main
+```
+
+## Required Workflow: Before Starting New Work
+
+**ALWAYS follow this sequence when starting new work:**
+
+```bash
+# 1. Commit or stash any current changes
+git add .
+git commit -m "Complete current work"  # or: git stash push -m "wip"
+
+# 2. Return to main branch
+git checkout main
+
+# 3. Sync with remote (CRITICAL - get latest changes)
+git pull origin main
+
+# 4. Create new feature branch
+git checkout -b feature/new-feature-name
+
+# 5. Do work, commit regularly, push
+git add .
+git commit -m "Add feature X"
+git push -u origin feature/new-feature-name
+
+# 6. Create PR on GitHub, get it merged
+
+# 7. REPEAT from step 2 for next feature
+```
+
+**Key Rules:**
+- Never start new work on an old feature branch
+- Always sync with remote main before creating new branch
+- One feature = one branch = one PR
+- Delete old branches after merging
+
 ## Feature Branch Workflow
 
-Standard workflow for adding features:
+Standard workflow for adding features (same as above, detailed):
 
 ```bash
 # 1. Start from main branch
