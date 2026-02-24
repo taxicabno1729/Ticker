@@ -18,6 +18,14 @@
         <action
             android:id="@+id/action_FirstFragment_to_CoinDetailFragment"
             app:destination="@id/CoinDetailFragment" />
+
+        <action
+            android:id="@+id/action_FirstFragment_to_PredictionMarketFragment"
+            app:destination="@id/PredictionMarketFragment" />
+
+        <action
+            android:id="@+id/action_FirstFragment_to_MarketBrowserFragment"
+            app:destination="@id/MarketBrowserFragment" />
     </fragment>
 
     <fragment
@@ -57,6 +65,34 @@
             android:id="@+id/action_SecondFragment_to_CoinDetailFragment"
             app:destination="@id/CoinDetailFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/PredictionMarketFragment"
+        android:name="com.example.liveticker.PredictionMarketFragment"
+        android:label="@string/prediction_markets_title"
+        tools:layout="@layout/fragment_prediction_market">
+
+        <argument
+            android:name="wallet_address"
+            app:argType="string"
+            android:defaultValue="" />
+
+        <action
+            android:id="@+id/action_PredictionMarketFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/MarketBrowserFragment"
+        android:name="com.example.liveticker.MarketBrowserFragment"
+        android:label="Market Browser"
+        tools:layout="@layout/fragment_market_browser">
+
+        <action
+            android:id="@+id/action_MarketBrowserFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
+
     <dialog
         android:id="@+id/appKit"
         android:name="com.reown.appkit.ui.AppKitSheet" />

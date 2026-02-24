@@ -98,6 +98,8 @@ class FirstFragment : Fragment() {
         setupSearchView()
         setupConnectButton()
         setupPortfolioButton()
+        setupPredictionMarketsButton()
+        setupMarketBrowserButton()
         setupRetryButton()
         
         observeViewModel()
@@ -164,6 +166,7 @@ class FirstFragment : Fragment() {
         if (_binding == null) return
         binding.walletAddress.text = address
         binding.portfolioButton.isEnabled = true
+        binding.predictionMarketsButton.isEnabled = true
         binding.connectButton.text = getString(R.string.disconnect_wallet)
         binding.connectButton.isEnabled = true
         viewModel.fetchWalletBalance(address)
@@ -174,6 +177,7 @@ class FirstFragment : Fragment() {
         connectedAddress = null
         binding.walletAddress.text = ""
         binding.portfolioButton.isEnabled = false
+        binding.predictionMarketsButton.isEnabled = false
         binding.walletBalance.visibility = View.GONE
         binding.connectButton.text = getString(R.string.connect_wallet)
         binding.connectButton.isEnabled = true
@@ -229,6 +233,21 @@ class FirstFragment : Fragment() {
                 val bundle = bundleOf("wallet_address" to address)
                 findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment, bundle)
             }
+        }
+    }
+
+    private fun setupPredictionMarketsButton() {
+        binding.predictionMarketsButton.setOnClickListener {
+            connectedAddress?.let { address ->
+                val bundle = bundleOf("wallet_address" to address)
+                findNavController().navigate(R.id.action_FirstFragment_to_PredictionMarketFragment, bundle)
+            }
+        }
+    }
+
+    private fun setupMarketBrowserButton() {
+        binding.marketBrowserButton.setOnClickListener {
+            findNavController().navigate(R.id.action_FirstFragment_to_MarketBrowserFragment)
         }
     }
 
