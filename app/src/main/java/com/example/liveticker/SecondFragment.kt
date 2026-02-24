@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -60,9 +62,14 @@ class SecondFragment : Fragment() {
         val factory = PortfolioViewModelFactory(walletRepository, coinRepository)
         viewModel = ViewModelProvider(this, factory)[PortfolioViewModel::class.java]
 
-        portfolioAdapter = PortfolioAdapter { chainName ->
-            toggleChainExpansion(chainName)
-        }
+        portfolioAdapter = PortfolioAdapter(
+            onChainClick = { chainName ->
+                toggleChainExpansion(chainName)
+            },
+            onTokenClick = { token ->
+                navigateToTokenDetail(token)
+            }
+        )
         binding.portfolioRecycler.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = portfolioAdapter
@@ -203,6 +210,23 @@ class SecondFragment : Fragment() {
             expandedChains.add(chainName)
         }
         updateVisibleItems()
+    }
+
+    /**
+     * Navigate to token detail screen
+     */
+    private fun navigateToTokenDetail(token: PortfolioToken) {
+        if (token.coingeckoId.isEmpty()) {
+            Toast.makeText(context, "Token details not available", Toast.LENGTH_SHORT).show()
+            return
+        }
+        
+        val bundle = bundleOf(
+            "coin_id" to token.coingeckoId,
+            "coin_name" to token.name,
+            "coin_symbol" to token.symbol
+        )
+        findNavController().navigate(R.id.action_SecondFragment_to_CoinDetailFragment, bundle)
     }
 
     /**
