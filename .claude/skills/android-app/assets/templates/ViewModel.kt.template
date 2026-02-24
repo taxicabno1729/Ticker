@@ -1,0 +1,40 @@
+package {{package_name}}.ui
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import {{package_name}}.data.Resource
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+
+class {{name}}ViewModel(
+    private val {{repository_var}}Repository: {{repository}}Repository
+) : ViewModel() {
+
+    private val _{{state_name}} = MutableStateFlow<Resource<{{data_type}}>>(Resource.Loading())
+    val {{state_name}}: StateFlow<Resource<{{data_type}}>> = _{{state_name}}
+
+    init {
+        fetch{{data_name}}()
+    }
+
+    fun fetch{{data_name}}() {
+        viewModelScope.launch {
+            _{{state_name}}.value = Resource.Loading()
+            _{{state_name}}.value = {{repository_var}}Repository.get{{data_name}}()
+        }
+    }
+}
+
+class {{name}}ViewModelFactory(
+    private val {{repository_var}}Repository: {{repository}}Repository
+) : ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom({{name}}ViewModel::class.java)) {
+            return {{name}}ViewModel({{repository_var}}Repository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}

@@ -1,0 +1,17 @@
+package {{package_name}}.data
+
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
+class {{name}}Repository {
+    suspend fun get{{data_name}}(): Resource<{{data_type}}> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = {{api_service}}.{{api_method}}()
+                Resource.Success(response)
+            } catch (e: Exception) {
+                Resource.Error(e.message ?: "An unknown error occurred")
+            }
+        }
+    }
+}
