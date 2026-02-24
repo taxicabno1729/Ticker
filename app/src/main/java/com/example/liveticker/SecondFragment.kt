@@ -128,11 +128,10 @@ class SecondFragment : Fragment() {
                         val totalValue = tokens.sumOf { it.valueUsd }
                         binding.portfolioTotalValue.text = String.format("$%,.2f", totalValue)
 
-                        // Calculate total ETH balance across all chains
-                        val totalEthBalance = tokens
-                            .filter { it.symbol == "ETH" }
-                            .sumOf { it.balance }
-                        binding.portfolioEthBalance.text = String.format("%.4f ETH (all chains)", totalEthBalance)
+                        // Calculate total portfolio value in ETH equivalent
+                        val ethPrice = tokens.find { it.symbol == "ETH" && it.contractAddress == null }?.priceUsd ?: 0.0
+                        val totalEthEquivalent = if (ethPrice > 0) totalValue / ethPrice else 0.0
+                        binding.portfolioEthBalance.text = String.format("%.4f ETH", totalEthEquivalent)
 
                         if (tokens.isEmpty()) {
                             binding.portfolioErrorContainer.visibility = View.VISIBLE
