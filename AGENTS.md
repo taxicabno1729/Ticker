@@ -20,7 +20,7 @@
 
 ### Architecture Components
 - **Navigation Component**: Single Activity with multiple Fragments
-- **ViewModel**: Lifecycle-aware UI data management
+- **ViewModel**: Lifecycle-aware UI data management with `viewModelScope`
 - **View Binding**: Type-safe view access (enabled in build features)
 - **Repository Pattern**: Data layer abstraction for API and blockchain calls
 
@@ -46,45 +46,55 @@
 
 ```
 app/src/main/java/com/example/liveticker/
-├── MainActivity.kt              # Main activity with navigation setup
+├── MainActivity.kt              # Main activity with navigation setup and deep link handling
 ├── TickerApplication.kt         # Application class, initializes Reown/AppKit
-├── FirstFragment.kt             # Main screen: ticker list + wallet connect
-├── SecondFragment.kt            # Portfolio view with Greeks analysis
-├── CoinDetailFragment.kt        # Detailed coin info with charts
-├── PredictionMarketFragment.kt  # Prediction market positions
+├── FirstFragment.kt             # Main screen: ticker list + wallet connect + search
+├── SecondFragment.kt            # Portfolio view with chain grouping and Greeks analysis
+├── CoinDetailFragment.kt        # Detailed coin info with price statistics and Greeks
+├── PredictionMarketFragment.kt  # Prediction market positions with metrics
 ├── MarketBrowserFragment.kt     # Browse Polymarket/Kalshi markets
 ├── KalshiLoginFragment.kt       # Kalshi authentication screen
 ├── data/                        # Data layer
-│   ├── Ticker.kt               # Data models
-│   ├── CoinDetail.kt
-│   ├── PortfolioToken.kt
-│   ├── PredictionMarketPosition.kt
-│   ├── Resource.kt             # Sealed class for API states
+│   ├── Ticker.kt               # Basic coin data model
+│   ├── CoinDetail.kt           # Detailed coin data with market data
+│   ├── PortfolioToken.kt       # Token with balance and value info
+│   ├── Erc20Tokens.kt          # Popular ERC-20 token definitions
+│   ├── PredictionMarketPosition.kt  # Prediction market position models and metrics
+│   ├── MarketChart.kt          # Price history data
+│   ├── CryptoGreeks.kt         # Greeks data model (Delta, Gamma, Theta, Vega, Rho)
+│   ├── PortfolioGreeksState.kt # Portfolio-level Greeks state
+│   ├── Resource.kt             # Sealed class for API states (Success, Error, Loading)
 │   ├── CoinRepository.kt       # CoinGecko API repository
-│   ├── WalletRepository.kt     # Blockchain balance fetching
-│   ├── PredictionMarketRepository.kt  # Polymarket/Kalshi integration
-│   ├── ChainConfig.kt          # Multi-chain configuration
-│   ├── CryptoGreeks.kt         # Greeks data model
-│   ├── GreeksCalculator.kt     # Risk metrics calculation
+│   ├── WalletRepository.kt     # Blockchain balance fetching with Web3j
+│   ├── PredictionMarketRepository.kt  # Polymarket/Kalshi integration with mock fallbacks
+│   ├── ChainConfig.kt          # Multi-chain configuration (5 EVM chains)
+│   ├── GreeksCalculator.kt     # Risk metrics calculation from price series
+│   ├── AuthRepository.kt       # Authentication handling
+│   ├── CoinDetailState.kt      # Coin detail UI state
 │   └── ...
 ├── network/                     # API layer
-│   ├── CoinGeckoApiService.kt
-│   ├── PolymarketApiService.kt
-│   ├── KalshiApiService.kt
-│   └── RetrofitClient.kt       # Retrofit singletons
+│   ├── CoinGeckoApiService.kt  # CoinGecko API endpoints
+│   ├── PolymarketApiService.kt # Polymarket Gamma API
+│   ├── KalshiApiService.kt     # Kalshi API with auth
+│   └── RetrofitClient.kt       # Retrofit singletons for all APIs
 └── ui/                          # UI layer (ViewModels + Adapters)
-    ├── TickerViewModel.kt
-    ├── PortfolioViewModel.kt
-    ├── CoinDetailViewModel.kt
-    ├── PredictionMarketViewModel.kt
-    ├── TickerAdapter.kt
-    ├── PortfolioAdapter.kt
-    └── ...
+    ├── TickerViewModel.kt      # Markets list ViewModel
+    ├── PortfolioViewModel.kt   # Portfolio ViewModel with Greeks calculation
+    ├── CoinDetailViewModel.kt  # Coin detail ViewModel
+    ├── PredictionMarketViewModel.kt  # Prediction markets ViewModel
+    ├── MarketBrowserViewModel.kt     # Market browser ViewModel
+    ├── AuthViewModel.kt        # Authentication ViewModel
+    ├── TickerAdapter.kt        # RecyclerView adapter for coin list
+    ├── PortfolioAdapter.kt     # Adapter with collapsible chain headers
+    ├── TokenGreeksAdapter.kt   # Per-token Greeks breakdown adapter
+    ├── PredictionMarketAdapter.kt    # Prediction positions adapter
+    └── MarketBrowserAdapter.kt # Market discovery adapter
 
 app/src/main/res/
 ├── layout/                     # XML layout files
-├── navigation/                 # Navigation graph
-├── values/                     # Strings, colors, themes
+├── navigation/                 # Navigation graph (nav_graph.xml)
+├── values/                     # Strings, colors (dark theme), themes
+├── menu/                       # Menu definitions
 └── ...
 ```
 
@@ -133,6 +143,9 @@ REOWN_PROJECT_ID=439a61535bc235844dbbaebe60969b35
 # Run instrumented tests
 ./gradlew connectedAndroidTest
 
+# Run lint checks
+./gradlew lint
+
 # Clean build
 ./gradlew clean
 
@@ -158,6 +171,7 @@ REOWN_PROJECT_ID=439a61535bc235844dbbaebe60969b35
 - ViewModels use `viewModelScope` for coroutines
 - Repository methods return `Resource<T>` for consistent error handling
 - UI state exposed as `StateFlow` from ViewModels
+- All coroutine I/O work uses `Dispatchers.IO`
 
 ### Naming Conventions
 - Packages: lowercase, no underscores (`com.example.liveticker`)
@@ -165,6 +179,12 @@ REOWN_PROJECT_ID=439a61535bc235844dbbaebe60969b35
 - Functions/Variables: camelCase (`fetchTickers`, `connectedAddress`)
 - Constants: UPPER_SNAKE_CASE (in companion objects)
 - XML resources: snake_case (`fragment_first.xml`, `ticker_item.xml`)
+
+### UI Conventions
+- Dark theme only: `background_dark` (#121212), `surface_dark` (#1E1E1E), `card_dark` (#2A2A2A)
+- Positive values use `accent_green`, negative use `accent_red`
+- `PortfolioToken.contractAddress == null` identifies a native chain token
+- ETH-equivalent portfolio value: `totalUsdValue / ethPrice`
 
 ## Testing Strategy
 
@@ -196,18 +216,21 @@ REOWN_PROJECT_ID=439a61535bc235844dbbaebe60969b35
 - Auto-refresh every 10 seconds using Handler/Runnable
 - Search functionality filters by name or symbol
 - Clicking item navigates to CoinDetailFragment
+- Wallet connect/disconnect with Reown AppKit
 
 ### 2. Wallet Integration
-- Uses Reown AppKit for wallet connections
+- Uses Reown AppKit for wallet connections (WalletConnect v2)
 - Supports WalletConnect-compatible wallets
 - Deep link handling in MainActivity for connection callbacks
 - Stores connected address for portfolio queries
+- Connected address passed as navigation argument (`wallet_address`)
 
 ### 3. Multi-Chain Portfolio (SecondFragment)
 - Queries 5 chains in parallel using `async/awaitAll`
 - Fetches native balance + ERC-20 token balances
 - Groups tokens by chain with expandable sections
 - Calculates portfolio-wide Greeks metrics
+- Swipe-to-refresh support
 
 ### 4. Crypto Greeks Calculation
 - **Delta**: Average daily return
@@ -215,11 +238,17 @@ REOWN_PROJECT_ID=439a61535bc235844dbbaebe60969b35
 - **Theta**: Annualized return over the period
 - **Vega**: Annualized volatility
 - **Rho**: Risk-adjusted return (Sharpe-like ratio)
+- Portfolio-level Greeks are value-weighted averages
 
 ### 5. Prediction Markets
 - Integrates with Polymarket (Polygon-based) and Kalshi
 - Currently uses fallback mock data (APIs require authentication)
-- Calculates prediction market metrics (prob delta, time theta, etc.)
+- Calculates prediction market metrics:
+  - **Probability Delta (Δ)**: Sensitivity to probability changes
+  - **Probability Gamma (Γ)**: Rate of change of Delta
+  - **Time Theta (Θ)**: Time decay of position
+  - **Liquidity Vega (V)**: Sensitivity to liquidity changes
+  - **Volume Rho (P)**: Sensitivity to trading volume
 
 ## Security Considerations
 
@@ -233,6 +262,7 @@ REOWN_PROJECT_ID=439a61535bc235844dbbaebe60969b35
 - Wallet connection handled by Reown/AppKit (industry standard)
 - No private keys stored in app
 - Uses deep link scheme `liveticker://` for callbacks
+- Auth tokens stored via AndroidX Security Crypto
 
 ### Network Security
 - HTTPS for all API calls
@@ -257,6 +287,7 @@ implementation("com.squareup.okhttp3:okhttp:4.9.3")
 // Android UI
 implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 implementation("androidx.security:security-crypto:1.1.0-alpha06")
+implementation("androidx.cardview:cardview:1.0.0")
 ```
 
 ## Common Development Tasks
@@ -310,9 +341,9 @@ implementation("androidx.security:security-crypto:1.1.0-alpha06")
 - Free tier: 100,000 requests/day
 
 ### Polymarket
-- Gamma API for markets
-- CLOB API for positions (requires auth)
-- Currently using mock data fallback
+- Gamma API for markets (public read-only)
+- CLOB API for positions (requires authentication)
+- Currently using mock data fallback for positions
 
 ### Kalshi
 - REST API for markets and positions

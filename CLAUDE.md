@@ -18,6 +18,14 @@ RPC URLs and API keys are defined in `gradle.properties` as `buildConfigField` e
 
 `INFURA_PROJECT_ID` and `REOWN_PROJECT_ID` are also in `gradle.properties`. Override them in `local.properties` (git-ignored) for local development.
 
+## Skills
+
+An `android-app` skill is available at `.claude/skills/android-app/`. Use it when creating or modifying Fragments, ViewModels, Repositories, Adapters, layouts, or nav graph entries. It provides:
+
+- **Templates** in `assets/templates/` with `{{variable}}` placeholders — see `SKILL.md` for the full variable reference.
+- **New screen workflow**: follow `references/new-screen-workflow.md` for the 7-step process (data model → repository → viewmodel → layout → fragment → nav graph → navigation action).
+- **Architecture & conventions** reference docs in `references/`.
+
 ## Architecture
 
 **MVVM + Repository pattern** with Jetpack Navigation (single-activity, fragment-based). No Compose — all UI is XML layouts with View Binding.
@@ -31,7 +39,15 @@ Fragment → ViewModel → Repository → (Retrofit/Web3j/CoinGecko)
 Fragment collects via lifecycleScope.launch { flow.collectLatest {} }
 ```
 
-`Resource<T>` is a sealed class (`Success`, `Error`, `Loading`) that wraps all async results. ViewModels always emit `Resource.Loading()` before starting work.
+`Resource<T>` is a sealed class that wraps all async results. ViewModels always emit `Resource.Loading()` before starting work:
+
+```kotlin
+sealed class Resource<T> {
+    class Loading<T> : Resource<T>()
+    data class Success<T>(val data: T?) : Resource<T>()
+    data class Error<T>(val message: String, val data: T? = null) : Resource<T>()
+}
+```
 
 ### Key layers
 
