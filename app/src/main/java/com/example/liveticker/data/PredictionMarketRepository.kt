@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.example.liveticker.network.KalshiClient
 import com.example.liveticker.network.PolymarketClient
+import com.example.liveticker.network.PolymarketClobClient
 import com.example.liveticker.network.centsToDollars
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -97,7 +98,8 @@ class PredictionMarketRepository {
                     volume24h = market.volume24h ?: 0.0,
                     liquidity = market.liquidity ?: 0.0,
                     category = market.tags?.firstOrNull()?.label ?: "Other",
-                    resolutionDate = market.resolutionDate ?: "TBD"
+                    resolutionDate = market.resolutionDate ?: "TBD",
+                    clobTokenId = parseFirstClobTokenId(market.clobTokenIds)
                 )
             }
             Resource.Success(displays)
@@ -214,6 +216,35 @@ class PredictionMarketRepository {
             )
         )
     }
+
+    /**
+     * 30-day probability history. Real CLOB data when a token id exists;
+     * deterministic synthetic series otherwise. Never returns Resource.Error —
+     * the chart always has something to draw (same philosophy as the
+     * mock-data fallbacks above).
+     */
+    suspend fun getProbabilityHistory(market: PolymarketMarketDisplay): Resource<List<ProbabilityPoint>> =
+        withContext(Dispatchers.IO) {
+            val tokenId = market.clobTokenId
+            if (tokenId.isNullOrBlank()) {
+                return@withContext Resource.Success(syntheticHistory(market.id, market.probability))
+            }
+            try {
+                val points = PolymarketClobClient.api.getPriceHistory(tokenId)
+                    .history.orEmpty().toProbabilityPoints()
+                if (points.size >= 2) Resource.Success(points)
+                else Resource.Success(syntheticHistory(market.id, market.probability))
+            } catch (e: Exception) {
+                android.util.Log.e("Polymarket", "History error: ${e.message}")
+                Resource.Success(syntheticHistory(market.id, market.probability))
+            }
+        }
+
+    fun getProbabilityHistory(market: KalshiMarketDisplay): Resource<List<ProbabilityPoint>> =
+        Resource.Success(syntheticHistory(market.ticker, market.probability))
+
+    private fun syntheticHistory(seed: String, endProbability: Double): List<ProbabilityPoint> =
+        SyntheticHistoryGenerator.generate(seed, endProbability)
 }
 
     /**
