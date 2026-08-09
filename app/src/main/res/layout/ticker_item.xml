@@ -92,18 +92,6 @@
                 tools:text="+2.34%"
                 tools:chipBackgroundColor="@color/primaryContainer"
                 tools:textColor="@color/onPrimaryContainer" />
-
-            <TextView
-                android:id="@+id/ticker_change"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:fontFamily="monospace"
-                android:visibility="gone"
-                tools:text="+2.34%"
-                tools:visibility="visible" />
         </LinearLayout>
 
     </LinearLayout>
