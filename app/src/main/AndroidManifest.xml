@@ -4,6 +4,22 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!--
+        Android 11+ package visibility: AppKit decides whether a wallet is
+        installed with PackageManager.getPackageInfo(appPackage), which throws
+        NameNotFoundException for any package we can't see. The Reown SDKs only
+        declare org.toshi (Coinbase) and their own sample wallet, so every other
+        wallet — MetaMask, Rainbow, Trust — was reported as not installed.
+        WalletConnect wallets all register a `wc:` VIEW filter, so querying that
+        intent makes them visible without hardcoding a package list.
+    -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="wc" />
+        </intent>
+    </queries>
+
     <application
         android:name=".TickerApplication"
         android:allowBackup="true"
