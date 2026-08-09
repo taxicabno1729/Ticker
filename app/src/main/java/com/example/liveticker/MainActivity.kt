@@ -27,6 +27,11 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
+        // Registers AppKit's ActivityResultLauncher; without this, choosing
+        // Coinbase Wallet in the connect modal throws "Launcher has not been
+        // initialized" and crashes.
+        AppKit.register(this)
+
         val navController = navController()
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -63,6 +68,11 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onDestroy() {
+        AppKit.unregister()
+        super.onDestroy()
     }
 
     override fun onSupportNavigateUp(): Boolean {
