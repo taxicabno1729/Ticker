@@ -42,10 +42,18 @@ class TickerApplication : Application() {
         )
 
         AppKit.initialize(
-            init = Modal.Params.Init(CoreClient),
-            onSuccess = { /* ready */ },
+            // CoolWallet's registry entry has image_id=null, which crashes the SDK's
+            // response parser (non-null WalletDTO.imageId) and breaks the connect modal.
+            // Excluding it filters the entry server-side. Recheck after an SDK upgrade.
+            init = Modal.Params.Init(
+                core = CoreClient,
+                excludedWalletIds = listOf("1f69170bf7a9bdcf89403ec012659b7124e158f925cdd4a2be49274c24cf5e5d")
+            ),
+            onSuccess = {
+                android.util.Log.d("TickerApp", "AppKit init success")
+            },
             onError = { error ->
-                android.util.Log.e("TickerApp", "AppKit init error: ${error.throwable.message}")
+                android.util.Log.e("TickerApp", "AppKit init error: ${error.throwable.message}", error.throwable)
             }
         )
 
