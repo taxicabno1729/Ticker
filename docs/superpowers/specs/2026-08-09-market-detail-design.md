@@ -25,8 +25,12 @@ Follows the app's MVVM + Repository pattern and the `android-app` skill's
 
 ### Navigation
 
-- Enable the `kotlin-parcelize` Gradle plugin (app module).
-- Annotate `PolymarketMarketDisplay` and `KalshiMarketDisplay` with `@Parcelize`.
+- Implement `Parcelable` manually on `PolymarketMarketDisplay` and
+  `KalshiMarketDisplay` (writeToParcel/CREATOR, ~20 lines each, unit-tested).
+  *Amended 2026-08-09: the original design used `kotlin-parcelize`, but the
+  parcelize compiler plugin does not integrate with AGP 9.0's built-in Kotlin
+  (verified empirically — the Gradle plugin applies but codegen never runs);
+  manual `Parcelable` avoids fighting the build system.*
 - New nav destination `MarketDetailFragment` in `nav_graph.xml` with two
   nullable Parcelable arguments — `polymarket_market` and `kalshi_market` —
   exactly one non-null per navigation. This avoids inventing a shared
