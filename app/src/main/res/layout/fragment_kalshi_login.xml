@@ -28,7 +28,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="16dp"
                 android:src="@drawable/ic_currency_bitcoin"
-                android:tint="@color/primary" />
+                app:tint="@color/primary" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -129,7 +129,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/ic_currency_bitcoin"
-                    android:tint="@color/accent_green"
+                    app:tint="@color/accent_green"
                     android:layout_marginBottom="16dp" />
 
                 <TextView
