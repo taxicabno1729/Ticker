@@ -1,5 +1,8 @@
 package com.example.liveticker
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.liveticker.data.AuthRepository
-import com.example.liveticker.data.KalshiMarketDisplay
-import com.example.liveticker.data.PolymarketMarketDisplay
 import com.example.liveticker.data.PredictionMarketRepository
 import com.example.liveticker.data.Resource
 import com.example.liveticker.databinding.FragmentMarketBrowserBinding
@@ -203,23 +204,14 @@ class MarketBrowserFragment : Fragment() {
     }
 
     private fun onMarketClicked(marketItem: MarketListItem) {
-        when (marketItem) {
-            is MarketListItem.PolymarketItem -> {
-                val market = marketItem.market
-                Toast.makeText(
-                    context,
-                    "${market.question}\nProbability: ${String.format("%.1f%%", market.probability * 100)}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-            is MarketListItem.KalshiItem -> {
-                val market = marketItem.market
-                Toast.makeText(
-                    context,
-                    "${market.title}\nProbability: ${String.format("%.1f%%", market.probability * 100)}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+        val url = when (marketItem) {
+            is MarketListItem.PolymarketItem -> marketItem.market.webUrl
+            is MarketListItem.KalshiItem -> marketItem.market.webUrl
+        }
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(context, "No browser available to open market", Toast.LENGTH_SHORT).show()
         }
     }
 

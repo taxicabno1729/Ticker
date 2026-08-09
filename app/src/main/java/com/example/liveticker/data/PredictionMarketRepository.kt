@@ -335,7 +335,9 @@ data class PolymarketMarketDisplay(
     val liquidity: Double,
     val category: String,
     val resolutionDate: String
-)
+) {
+    val webUrl: String get() = "https://polymarket.com/event/$slug"
+}
 
 data class KalshiMarketDisplay(
     val ticker: String,
@@ -345,7 +347,9 @@ data class KalshiMarketDisplay(
     val liquidity: Double,
     val category: String,
     val closeTime: String
-)
+) {
+    val webUrl: String get() = "https://kalshi.com/markets/$ticker"
+}
 
 /**
  * Calculator for Prediction Market Metrics (Greeks equivalent)
