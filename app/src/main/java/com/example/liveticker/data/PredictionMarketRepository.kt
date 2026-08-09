@@ -1,7 +1,10 @@
 package com.example.liveticker.data
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.example.liveticker.network.KalshiClient
 import com.example.liveticker.network.PolymarketClient
+import com.example.liveticker.network.PolymarketClobClient
 import com.example.liveticker.network.centsToDollars
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -95,7 +98,8 @@ class PredictionMarketRepository {
                     volume24h = market.volume24h ?: 0.0,
                     liquidity = market.liquidity ?: 0.0,
                     category = market.tags?.firstOrNull()?.label ?: "Other",
-                    resolutionDate = market.resolutionDate ?: "TBD"
+                    resolutionDate = market.resolutionDate ?: "TBD",
+                    clobTokenId = parseFirstClobTokenId(market.clobTokenIds)
                 )
             }
             Resource.Success(displays)
@@ -212,6 +216,35 @@ class PredictionMarketRepository {
             )
         )
     }
+
+    /**
+     * 30-day probability history. Real CLOB data when a token id exists;
+     * deterministic synthetic series otherwise. Never returns Resource.Error —
+     * the chart always has something to draw (same philosophy as the
+     * mock-data fallbacks above).
+     */
+    suspend fun getProbabilityHistory(market: PolymarketMarketDisplay): Resource<List<ProbabilityPoint>> =
+        withContext(Dispatchers.IO) {
+            val tokenId = market.clobTokenId
+            if (tokenId.isNullOrBlank()) {
+                return@withContext Resource.Success(syntheticHistory(market.id, market.probability))
+            }
+            try {
+                val points = PolymarketClobClient.api.getPriceHistory(tokenId)
+                    .history.orEmpty().toProbabilityPoints()
+                if (points.size >= 2) Resource.Success(points)
+                else Resource.Success(syntheticHistory(market.id, market.probability))
+            } catch (e: Exception) {
+                android.util.Log.e("Polymarket", "History error: ${e.message}")
+                Resource.Success(syntheticHistory(market.id, market.probability))
+            }
+        }
+
+    fun getProbabilityHistory(market: KalshiMarketDisplay): Resource<List<ProbabilityPoint>> =
+        Resource.Success(syntheticHistory(market.ticker, market.probability))
+
+    private fun syntheticHistory(seed: String, endProbability: Double): List<ProbabilityPoint> =
+        SyntheticHistoryGenerator.generate(seed, endProbability)
 }
 
     /**
@@ -325,7 +358,9 @@ class PredictionMarketRepository {
         )
     }
 
-// Display models for market discovery
+// Display models for market discovery.
+// Parcelable is implemented manually: the kotlin-parcelize compiler plugin
+// does not integrate with AGP 9 built-in Kotlin (see design spec).
 data class PolymarketMarketDisplay(
     val id: String,
     val slug: String,
@@ -334,8 +369,41 @@ data class PolymarketMarketDisplay(
     val volume24h: Double,
     val liquidity: Double,
     val category: String,
-    val resolutionDate: String
-)
+    val resolutionDate: String,
+    val clobTokenId: String? = null
+) : Parcelable {
+    val webUrl: String get() = "https://polymarket.com/event/$slug"
+
+    override fun describeContents(): Int = 0
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeString(id)
+        dest.writeString(slug)
+        dest.writeString(question)
+        dest.writeDouble(probability)
+        dest.writeDouble(volume24h)
+        dest.writeDouble(liquidity)
+        dest.writeString(category)
+        dest.writeString(resolutionDate)
+        dest.writeString(clobTokenId)
+    }
+
+    companion object CREATOR : Parcelable.Creator<PolymarketMarketDisplay> {
+        override fun createFromParcel(source: Parcel) = PolymarketMarketDisplay(
+            id = source.readString().orEmpty(),
+            slug = source.readString().orEmpty(),
+            question = source.readString().orEmpty(),
+            probability = source.readDouble(),
+            volume24h = source.readDouble(),
+            liquidity = source.readDouble(),
+            category = source.readString().orEmpty(),
+            resolutionDate = source.readString().orEmpty(),
+            clobTokenId = source.readString()
+        )
+
+        override fun newArray(size: Int): Array<PolymarketMarketDisplay?> = arrayOfNulls(size)
+    }
+}
 
 data class KalshiMarketDisplay(
     val ticker: String,
@@ -345,7 +413,35 @@ data class KalshiMarketDisplay(
     val liquidity: Double,
     val category: String,
     val closeTime: String
-)
+) : Parcelable {
+    val webUrl: String get() = "https://kalshi.com/markets/$ticker"
+
+    override fun describeContents(): Int = 0
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeString(ticker)
+        dest.writeString(title)
+        dest.writeDouble(probability)
+        dest.writeDouble(volume24h)
+        dest.writeDouble(liquidity)
+        dest.writeString(category)
+        dest.writeString(closeTime)
+    }
+
+    companion object CREATOR : Parcelable.Creator<KalshiMarketDisplay> {
+        override fun createFromParcel(source: Parcel) = KalshiMarketDisplay(
+            ticker = source.readString().orEmpty(),
+            title = source.readString().orEmpty(),
+            probability = source.readDouble(),
+            volume24h = source.readDouble(),
+            liquidity = source.readDouble(),
+            category = source.readString().orEmpty(),
+            closeTime = source.readString().orEmpty()
+        )
+
+        override fun newArray(size: Int): Array<KalshiMarketDisplay?> = arrayOfNulls(size)
+    }
+}
 
 /**
  * Calculator for Prediction Market Metrics (Greeks equivalent)

@@ -10,13 +10,25 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ./gradlew test                   # Run unit tests
 ./gradlew connectedAndroidTest   # Run instrumented tests (requires device/emulator)
 ./gradlew lint                   # Run lint checks
+
+# Run a single unit test class
+./gradlew testDebugUnitTest --tests "com.example.liveticker.ExampleUnitTest"
 ```
+
+## Git Hooks
+
+`hooks/` contains git hooks enforcing the git skill's rules — install once per clone with `bash hooks/install.sh`:
+
+- `commit-msg` — requires `<type>(scope)?: <summary ≤72 chars>` with type in `feat|fix|docs|style|refactor|test|chore` (Merge/Revert/WIP exempt).
+- `pre-push` — blocks direct pushes to `main`.
 
 ## Configuration
 
-RPC URLs and API keys are defined in `gradle.properties` as `buildConfigField` entries and accessed via `BuildConfig.RPC_ETHEREUM`, `BuildConfig.RPC_POLYGON`, etc. The five supported chains are Ethereum (1), Polygon (137), Arbitrum (42161), Optimism (10), and Base (8453).
+RPC URLs and API keys are `buildConfigField` entries in `app/build.gradle.kts`, built from `INFURA_PROJECT_ID`, and accessed via `BuildConfig.RPC_ETHEREUM`, `BuildConfig.RPC_POLYGON`, etc. The five supported chains are Ethereum (1), Polygon (137), Arbitrum (42161), Optimism (10), and Base (8453).
 
-`INFURA_PROJECT_ID` and `REOWN_PROJECT_ID` are also in `gradle.properties`. Override them in `local.properties` (git-ignored) for local development.
+`INFURA_PROJECT_ID` and `REOWN_PROJECT_ID` live in `gradle.properties`. Override them in `local.properties` (git-ignored) for local development.
+
+`AGENTS.md` at the repo root holds extended agent documentation (full tech stack, per-file structure, external API notes).
 
 ## Skills
 
@@ -28,6 +40,10 @@ Use when creating or modifying Fragments, ViewModels, Repositories, Adapters, la
 - **New screen workflow**: follow `references/new-screen-workflow.md` for the 7-step process (data model → repository → viewmodel → layout → fragment → nav graph → navigation action).
 - **Architecture & conventions** reference docs in `references/`.
 
+### `frontend-design` — `.claude/skills/frontend-design/`
+
+Use when creating or improving UI: layouts, themes, colors, typography, or visual design. Covers Material 3 components, responsive layouts, and animation patterns.
+
 ### `git` — `.claude/skills/git/`
 
 Follow this skill's workflow for all git operations. Key rules:
@@ -35,7 +51,8 @@ Follow this skill's workflow for all git operations. Key rules:
 - Always `git status` before starting new work.
 - Commit or stash existing changes, return to `main`, `git pull origin main`, then create a new feature branch.
 - One feature = one branch = one PR. Never start new work on an old feature branch.
-- Commit message format: `<type>: <short summary>` (types: `feat`, `fix`, `docs`, `refactor`, `chore`).
+- Commit message format: `<type>: <short summary>` (types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore` — enforced by the `commit-msg` hook).
+
 ## Architecture
 
 **MVVM + Repository pattern** with Jetpack Navigation (single-activity, fragment-based). No Compose — all UI is XML layouts with View Binding.
@@ -91,7 +108,7 @@ Navigation is defined in `res/navigation/nav_graph.xml`. `MainActivity` owns the
 
 ## Conventions
 
-- Dark theme only: `background_dark` (#121212), `surface_dark` (#1E1E1E), `card_dark` (#2A2A2A). Positive values use `accent_green`, negative use `accent_red`.
+- Dark theme only, using the Material 3 color system (`Theme.Material3.Dark.NoActionBar`): role-named colors (`primary`, `surface`, `surfaceVariant`, `surface_1`–`surface_5` elevation tints) in `res/values/colors.xml`. Legacy names (`background_dark`, `surface_dark`, `card_dark`, `text_primary`, …) are aliases to M3 roles — prefer the M3 role names in new code. Positive values use `accent_green`, negative use `accent_red`.
 - All coroutine work goes through `Dispatchers.IO` inside repositories; ViewModels use `viewModelScope`.
 - `PortfolioToken.contractAddress == null` identifies a native chain token (ETH, POL). ERC-20s always have a non-null address.
 - ETH-equivalent portfolio value: `totalUsdValue / ethPrice` where `ethPrice` comes from `tokens.find { it.symbol == "ETH" && it.contractAddress == null }?.priceUsd`.

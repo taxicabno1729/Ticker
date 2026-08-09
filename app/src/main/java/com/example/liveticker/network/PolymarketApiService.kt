@@ -78,7 +78,8 @@ data class PolymarketMarket(
     @SerializedName("tags") val tags: List<PolymarketTag>?,
     val outcomes: List<PolymarketOutcome>?,
     @SerializedName("event_id") val eventId: String?,
-    @SerializedName("events") val events: List<PolymarketEventBrief>?
+    @SerializedName("events") val events: List<PolymarketEventBrief>?,
+    @SerializedName("clobTokenIds") val clobTokenIds: String?
 )
 
 data class PolymarketEvent(

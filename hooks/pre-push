@@ -1,0 +1,18 @@
+#!/bin/bash
+# Blocks direct pushes to main, enforcing feature branch discipline
+# from the git skill: one feature = one branch = one PR
+
+current_branch=$(git branch --show-current)
+
+if [[ "$current_branch" == "main" ]]; then
+    echo ""
+    echo "  ERROR: Direct push to 'main' is not allowed."
+    echo ""
+    echo "  Follow the feature branch workflow:"
+    echo "    1. git checkout -b feature/<name>"
+    echo "    2. git commit -m 'feat: ...' "
+    echo "    3. git push -u origin feature/<name>"
+    echo "    4. gh pr create"
+    echo ""
+    exit 1
+fi

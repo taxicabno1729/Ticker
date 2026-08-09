@@ -34,3 +34,13 @@ object KalshiClient {
         retrofit.create(KalshiApiService::class.java)
     }
 }
+
+object PolymarketClobClient {
+    val api: PolymarketClobApiService by lazy {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(PolymarketClobApiService.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        retrofit.create(PolymarketClobApiService::class.java)
+    }
+}

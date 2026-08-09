@@ -95,6 +95,29 @@
         <action
             android:id="@+id/action_MarketBrowserFragment_to_KalshiLoginFragment"
             app:destination="@id/KalshiLoginFragment" />
+
+        <action
+            android:id="@+id/action_MarketBrowserFragment_to_MarketDetailFragment"
+            app:destination="@id/MarketDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/MarketDetailFragment"
+        android:name="com.example.liveticker.MarketDetailFragment"
+        android:label="Market Detail"
+        tools:layout="@layout/fragment_market_detail">
+
+        <argument
+            android:name="polymarket_market"
+            app:argType="com.example.liveticker.data.PolymarketMarketDisplay"
+            app:nullable="true"
+            android:defaultValue="@null" />
+
+        <argument
+            android:name="kalshi_market"
+            app:argType="com.example.liveticker.data.KalshiMarketDisplay"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 
     <fragment

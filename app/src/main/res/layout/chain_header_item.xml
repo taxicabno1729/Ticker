@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/card_dark">
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="4dp"
+    app:cardBackgroundColor="@color/surfaceVariant"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="0dp"
+    style="@style/Widget.Material3.CardView.Filled">
 
     <LinearLayout
         android:id="@+id/header_container"
@@ -14,21 +20,22 @@
         android:gravity="center_vertical"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        android:padding="12dp">
 
         <!-- Left accent stripe -->
         <View
             android:layout_width="3dp"
-            android:layout_height="48dp"
+            android:layout_height="40dp"
             android:background="@color/primary" />
 
-        <!-- Chain icon -->
+        <!-- Chain Icon -->
         <FrameLayout
             android:id="@+id/chain_icon_container"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_marginStart="12dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="12dp"
             android:background="@drawable/circle_placeholder">
 
             <TextView
@@ -36,10 +43,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:textSize="11sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
-                android:textColor="@color/primary"
-                tools:text="E" />
+                android:textColor="@color/primary" />
         </FrameLayout>
 
         <TextView
@@ -47,19 +53,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:textColor="@color/text_primary"
-            android:letterSpacing="0.02"
+            android:textAppearance="@style/TextAppearance.LiveTicker.TitleMedium"
             tools:text="Ethereum" />
 
         <TextView
             android:id="@+id/chain_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:textColor="@color/accent_green"
+            android:textAppearance="@style/TextAppearance.LiveTicker.TitleMedium"
+            android:textColor="@color/primary"
             android:fontFamily="monospace"
             android:minWidth="80dp"
             android:gravity="end"
@@ -67,18 +69,13 @@
 
         <ImageView
             android:id="@+id/expand_icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="12dp"
-            android:alpha="0.5"
+            android:layout_marginEnd="4dp"
+            android:tint="@color/onSurfaceVariant"
             android:src="@drawable/ic_expand_less"
             android:contentDescription="@string/expand_collapse" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/divider" />
-
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.liveticker.R
 import com.example.liveticker.data.Ticker
+import com.google.android.material.chip.Chip
 
 class TickerAdapter(
     private val onItemClick: (Ticker) -> Unit = {}
@@ -29,16 +30,16 @@ class TickerAdapter(
 
         val change = ticker.price_change_percentage_24h
         if (change != null) {
-            holder.tickerChange.visibility = View.VISIBLE
-            holder.tickerChange.text = String.format("%+.2f%%", change)
+            holder.tickerChangeChip.visibility = View.VISIBLE
+            holder.tickerChangeChip.text = String.format("%+.2f%%", change)
             val color = if (change >= 0) {
                 holder.itemView.context.getColor(R.color.accent_green)
             } else {
                 holder.itemView.context.getColor(R.color.accent_red)
             }
-            holder.tickerChange.setTextColor(color)
+            holder.tickerChangeChip.setTextColor(color)
         } else {
-            holder.tickerChange.visibility = View.GONE
+            holder.tickerChangeChip.visibility = View.GONE
         }
 
         holder.itemView.setOnClickListener { onItemClick(ticker) }
@@ -48,7 +49,7 @@ class TickerAdapter(
         val tickerName: TextView = itemView.findViewById(R.id.ticker_name)
         val tickerSymbol: TextView = itemView.findViewById(R.id.ticker_symbol)
         val tickerPrice: TextView = itemView.findViewById(R.id.ticker_price)
-        val tickerChange: TextView = itemView.findViewById(R.id.ticker_change)
+        val tickerChangeChip: Chip = itemView.findViewById(R.id.ticker_change_chip)
         val tickerIconText: TextView = itemView.findViewById(R.id.ticker_icon_text)
     }
 }

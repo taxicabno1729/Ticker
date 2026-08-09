@@ -5,14 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.liveticker.data.AuthRepository
-import com.example.liveticker.data.KalshiMarketDisplay
-import com.example.liveticker.data.PolymarketMarketDisplay
 import com.example.liveticker.data.PredictionMarketRepository
 import com.example.liveticker.data.Resource
 import com.example.liveticker.databinding.FragmentMarketBrowserBinding
@@ -203,24 +202,11 @@ class MarketBrowserFragment : Fragment() {
     }
 
     private fun onMarketClicked(marketItem: MarketListItem) {
-        when (marketItem) {
-            is MarketListItem.PolymarketItem -> {
-                val market = marketItem.market
-                Toast.makeText(
-                    context,
-                    "${market.question}\nProbability: ${String.format("%.1f%%", market.probability * 100)}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-            is MarketListItem.KalshiItem -> {
-                val market = marketItem.market
-                Toast.makeText(
-                    context,
-                    "${market.title}\nProbability: ${String.format("%.1f%%", market.probability * 100)}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+        val bundle = when (marketItem) {
+            is MarketListItem.PolymarketItem -> bundleOf("polymarket_market" to marketItem.market)
+            is MarketListItem.KalshiItem -> bundleOf("kalshi_market" to marketItem.market)
         }
+        findNavController().navigate(R.id.action_MarketBrowserFragment_to_MarketDetailFragment, bundle)
     }
 
     private fun showError(message: String?) {
