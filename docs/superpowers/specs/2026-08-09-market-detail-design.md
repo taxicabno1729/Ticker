@@ -1,7 +1,7 @@
 # Market Detail Screen — Design
 
 **Date:** 2026-08-09
-**Status:** Approved (pending spec review)
+**Status:** Implemented 2026-08-09
 
 ## Goal
 
