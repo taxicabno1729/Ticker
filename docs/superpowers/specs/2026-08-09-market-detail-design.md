@@ -75,11 +75,15 @@ Follows the app's MVVM + Repository pattern and the `android-app` skill's
      shows a small loading spinner while `Resource.Loading`.
   4. **Open on Polymarket/Kalshi** — `MaterialButton` (text style) firing
      `ACTION_VIEW` with `market.webUrl`; `ActivityNotFoundException` → Toast.
-- `ProbabilityChartView` — custom `View`; API: `setPoints(List<ProbabilityPoint>)`.
-  Draws: gridlines at 0/50/100% with labels, probability polyline, subtle
-  vertical gradient fill under the line. Line color `accent_green` if the
-  series ends at or above its start, else `accent_red`. Respects padding;
-  `invalidate()` on data change. No touch handling.
+- `ProbabilityChartView` — custom `View`; API: `setPoints(List<ProbabilityPoint>)`
+  (points are sorted by timestamp on entry). Draws: gridlines at 0/50/100% with
+  labels, probability polyline, subtle vertical gradient fill under the line.
+  Line color `accent_green` if the time-ordered series ends at or above its
+  start, else `accent_red`. Touch-scrubbing (press/drag on the chart) shows a
+  vertical guide line, a ringed dot on the nearest data point, and a
+  `"83.9% · Jul 26"` tooltip pinned to the top of the plot; cleared on release.
+  Trend and nearest-point math lives in `ChartGeometry` (no android.view
+  dependencies) so it is unit-testable.
 
 ## Error handling
 
@@ -98,6 +102,8 @@ Follows the app's MVVM + Repository pattern and the `android-app` skill's
   - CLOB response mapping: JSON → `ProbabilityPoint` list, and fallback on
     empty/absent history.
   - Existing `MarketUrlTest` still passes (webUrl unchanged).
+  - `ChartGeometryTest` — trend direction (rising/falling/flat/unsorted input)
+    and nearest-point index selection (exact hit, midpoint, clamping, empty).
 - Instrumented tests (`app/src/androidTest`):
   - `MarketDisplayParcelTest` — round-trips `PolymarketMarketDisplay` (with and
     without a null `clobTokenId`) and `KalshiMarketDisplay` through a real
@@ -111,6 +117,5 @@ Follows the app's MVVM + Repository pattern and the `android-app` skill's
 ## Out of scope
 
 - Kalshi authenticated candlestick history.
-- Chart touch interactions (scrubbing, tooltips).
 - Order book, outcomes beyond Yes/No, position taking.
 - Caching history beyond the ViewModel's lifetime.
