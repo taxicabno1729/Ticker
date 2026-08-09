@@ -26,7 +26,9 @@ Follows the app's MVVM + Repository pattern and the `android-app` skill's
 ### Navigation
 
 - Implement `Parcelable` manually on `PolymarketMarketDisplay` and
-  `KalshiMarketDisplay` (writeToParcel/CREATOR, ~20 lines each, unit-tested).
+  `KalshiMarketDisplay` (writeToParcel/CREATOR, ~20 lines each; the
+  write/read round-trip is covered by an instrumented test since plain
+  JUnit cannot construct a real `android.os.Parcel`).
   *Amended 2026-08-09: the original design used `kotlin-parcelize`, but the
   parcelize compiler plugin does not integrate with AGP 9.0's built-in Kotlin
   (verified empirically — the Gradle plugin applies but codegen never runs);
@@ -46,7 +48,7 @@ Follows the app's MVVM + Repository pattern and the `android-app` skill's
 - `PredictionMarketRepository`:
   - `suspend fun getProbabilityHistory(market: PolymarketMarketDisplay): Resource<List<ProbabilityPoint>>`
     — extends the Gamma `PolymarketMarket` DTO with `clobTokenIds` (JSON string
-    array field); fetches `https://clob.polymarket.com/prices-history?market={tokenId}&interval=1w&fidelity=60`
+    array field); fetches `https://clob.polymarket.com/prices-history?market={tokenId}&interval=1m&fidelity=1440`
     via a new `PolymarketClobApiService` (Retrofit singleton in
     `RetrofitClient`). Any failure (no token id, HTTP error, empty series)
     falls back to the synthetic series — same philosophy as the repo's
@@ -96,6 +98,12 @@ Follows the app's MVVM + Repository pattern and the `android-app` skill's
   - CLOB response mapping: JSON → `ProbabilityPoint` list, and fallback on
     empty/absent history.
   - Existing `MarketUrlTest` still passes (webUrl unchanged).
+- Instrumented tests (`app/src/androidTest`):
+  - `MarketDisplayParcelTest` — round-trips `PolymarketMarketDisplay` (with and
+    without a null `clobTokenId`) and `KalshiMarketDisplay` through a real
+    `android.os.Parcel` and asserts full equality. This is the coverage for
+    the manual `Parcelable` implementations; a plain JUnit unit test cannot
+    construct `Parcel`, so it can't live under `app/src/test`.
 - Manual verification on emulator: navigate from both tabs (Polymarket mock +
   Kalshi mock), check chart renders, stats correct, external-link button works,
   back navigation intact.
