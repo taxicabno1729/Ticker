@@ -90,11 +90,11 @@ class MarketBrowserAdapter(
             probabilityBadge.setBackgroundColor(ContextCompat.getColor(itemView.context, probColor))
             
             volume24h.text = formatCurrency(market.volume24h)
-            liquidity.text = "Liq: ${formatCurrency(market.liquidity)}"
+            liquidity.text = itemView.context.getString(R.string.liquidity_label, formatCurrency(market.liquidity))
             category.text = market.category
-            resolutionDate.text = "Resolves: ${market.resolutionDate}"
-            
-            sourceBadge.text = "Polymarket"
+            resolutionDate.text = itemView.context.getString(R.string.resolves_label, market.resolutionDate)
+
+            sourceBadge.setText(R.string.polymarket)
             sourceBadge.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.primary))
         }
 
@@ -113,11 +113,11 @@ class MarketBrowserAdapter(
             probabilityBadge.setBackgroundColor(ContextCompat.getColor(itemView.context, probColor))
             
             volume24h.text = formatCurrency(market.volume24h)
-            liquidity.text = "Liq: ${formatCurrency(market.liquidity)}"
+            liquidity.text = itemView.context.getString(R.string.liquidity_label, formatCurrency(market.liquidity))
             category.text = market.category
-            resolutionDate.text = "Closes: ${market.closeTime}"
-            
-            sourceBadge.text = "Kalshi"
+            resolutionDate.text = itemView.context.getString(R.string.closes_label, market.closeTime)
+
+            sourceBadge.setText(R.string.kalshi)
             sourceBadge.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.secondary))
         }
 

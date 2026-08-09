@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,7 +36,7 @@
                         android:id="@+id/detail_source_badge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="10sp"
+                        android:textSize="11sp"
                         android:textStyle="bold"
                         android:textColor="@color/onPrimaryContainer"
                         android:background="@drawable/category_background"
@@ -50,7 +49,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:textSize="10sp"
+                        android:textSize="11sp"
                         android:textColor="@color/onPrimaryContainer"
                         android:background="@drawable/category_background"
                         android:paddingHorizontal="8dp"
@@ -98,7 +97,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Market Stats"
+                    android:text="@string/market_stats"
                     android:textAppearance="@style/TextAppearance.LiveTicker.TitleMedium" />
 
                 <LinearLayout
@@ -111,7 +110,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Yes price"
+                        android:text="@string/yes_price"
                         android:textColor="@color/text_secondary"
                         android:textSize="13sp" />
 
@@ -135,7 +134,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="No price"
+                        android:text="@string/no_price"
                         android:textColor="@color/text_secondary"
                         android:textSize="13sp" />
 
@@ -159,7 +158,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="24h volume"
+                        android:text="@string/market_volume_24h"
                         android:textColor="@color/text_secondary"
                         android:textSize="13sp" />
 
@@ -183,7 +182,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Liquidity"
+                        android:text="@string/liquidity"
                         android:textColor="@color/text_secondary"
                         android:textSize="13sp" />
 
@@ -207,7 +206,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Resolves"
+                        android:text="@string/resolves"
                         android:textColor="@color/text_secondary"
                         android:textSize="13sp" />
 
@@ -242,7 +241,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Probability (30d)"
+                    android:text="@string/probability_30d"
                     android:textAppearance="@style/TextAppearance.LiveTicker.TitleMedium" />
 
                 <FrameLayout

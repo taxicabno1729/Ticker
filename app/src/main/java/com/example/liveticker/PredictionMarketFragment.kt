@@ -114,7 +114,7 @@ class PredictionMarketFragment : Fragment() {
                         val totalPnl = positions.sumOf { it.pnl }
                         val totalPnlPercent = if (totalInvested > 0) (totalPnl / totalInvested) * 100 else 0.0
 
-                        binding.pmTotalValue.text = String.format("$%,.2f", totalValue)
+                        binding.pmTotalValue.text = String.format(Locale.US, "$%,.2f", totalValue)
                         
                         val pnlColor = if (totalPnl >= 0) R.color.accent_green else R.color.accent_red
                         binding.pmTotalPnl.setTextColor(requireContext().getColor(pnlColor))
@@ -137,7 +137,7 @@ class PredictionMarketFragment : Fragment() {
                         binding.pmLoading.visibility = View.GONE
                         binding.pmSwipeRefresh.isRefreshing = false
                         binding.pmErrorContainer.visibility = View.VISIBLE
-                        binding.pmEmpty.text = "Error: ${resource.message}"
+                        binding.pmEmpty.text = getString(R.string.error_with_message, resource.message)
                         binding.pmRetryButton.visibility = View.VISIBLE
                     }
                 }

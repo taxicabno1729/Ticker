@@ -133,12 +133,12 @@ class SecondFragment : Fragment() {
                         val tokens = resource.data ?: emptyList()
 
                         val totalValue = tokens.sumOf { it.valueUsd }
-                        binding.portfolioTotalValue.text = String.format("$%,.2f", totalValue)
+                        binding.portfolioTotalValue.text = String.format(Locale.US, "$%,.2f", totalValue)
 
                         // Calculate total portfolio value in ETH equivalent
                         val ethPrice = tokens.find { it.symbol == "ETH" && it.contractAddress == null }?.priceUsd ?: 0.0
                         val totalEthEquivalent = if (ethPrice > 0) totalValue / ethPrice else 0.0
-                        binding.portfolioEthBalance.text = String.format("%.4f ETH", totalEthEquivalent)
+                        binding.portfolioEthBalance.text = String.format(Locale.US, "%.4f ETH", totalEthEquivalent)
 
                         if (tokens.isEmpty()) {
                             binding.portfolioErrorContainer.visibility = View.VISIBLE
@@ -164,7 +164,7 @@ class SecondFragment : Fragment() {
                         binding.portfolioLoading.visibility = View.GONE
                         binding.swipeRefresh.isRefreshing = false
                         binding.portfolioErrorContainer.visibility = View.VISIBLE
-                        binding.portfolioEmpty.text = "Error: ${resource.message}"
+                        binding.portfolioEmpty.text = getString(R.string.error_with_message, resource.message)
                         binding.portfolioRetryButton.visibility = View.VISIBLE
                     }
                 }

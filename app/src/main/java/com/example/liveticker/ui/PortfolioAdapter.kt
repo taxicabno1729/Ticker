@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.liveticker.R
 import com.example.liveticker.data.PortfolioToken
+import java.util.Locale
 
 sealed class PortfolioListItem {
     abstract val id: String
@@ -81,7 +82,7 @@ class PortfolioAdapter(
 
         fun bind(header: PortfolioListItem.Header) {
             chainName.text = header.chainName
-            chainValue.text = String.format("$%,.2f", header.totalValue)
+            chainValue.text = String.format(Locale.US, "$%,.2f", header.totalValue)
             chainIconText.text = header.chainSymbol.take(1).uppercase()
 
             // Update expand/collapse icon
@@ -116,10 +117,10 @@ class PortfolioAdapter(
             tokenBalance.text = if (token.balance < 0.0001 && token.balance > 0) {
                 "< 0.0001"
             } else {
-                String.format("%.4f", token.balance)
+                String.format(Locale.US, "%.4f", token.balance)
             }
-            tokenValue.text = String.format("$%.2f", token.valueUsd)
-            tokenPrice.text = String.format("$%.2f", token.priceUsd)
+            tokenValue.text = String.format(Locale.US, "$%.2f", token.valueUsd)
+            tokenPrice.text = String.format(Locale.US, "$%.2f", token.priceUsd)
 
             if (token.valueUsd > 0) {
                 tokenValue.setTextColor(itemView.context.getColor(R.color.accent_green))

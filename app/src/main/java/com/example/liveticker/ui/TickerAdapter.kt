@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.liveticker.R
 import com.example.liveticker.data.Ticker
 import com.google.android.material.chip.Chip
+import java.util.Locale
 
 class TickerAdapter(
     private val onItemClick: (Ticker) -> Unit = {}
@@ -25,13 +26,13 @@ class TickerAdapter(
         val ticker = getItem(position)
         holder.tickerName.text = ticker.name
         holder.tickerSymbol.text = ticker.symbol.uppercase()
-        holder.tickerPrice.text = String.format("$%,.2f", ticker.current_price)
+        holder.tickerPrice.text = String.format(Locale.US, "$%,.2f", ticker.current_price)
         holder.tickerIconText.text = ticker.symbol.take(1).uppercase()
 
         val change = ticker.price_change_percentage_24h
         if (change != null) {
             holder.tickerChangeChip.visibility = View.VISIBLE
-            holder.tickerChangeChip.text = String.format("%+.2f%%", change)
+            holder.tickerChangeChip.text = String.format(Locale.US, "%+.2f%%", change)
             val color = if (change >= 0) {
                 holder.itemView.context.getColor(R.color.accent_green)
             } else {

@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background_dark"
     android:padding="24dp"
     tools:context=".KalshiLoginFragment">
 
@@ -27,13 +26,14 @@
                 android:layout_height="64dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="16dp"
+                android:importantForAccessibility="no"
                 android:src="@drawable/ic_currency_bitcoin"
-                android:tint="@color/primary" />
+                app:tint="@color/primary" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Kalshi Login"
+                android:text="@string/kalshi_login_title"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_primary"
@@ -43,7 +43,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sign in to access your Kalshi prediction markets"
+                android:text="@string/kalshi_login_subtitle"
                 android:textSize="14sp"
                 android:textColor="@color/text_secondary"
                 android:gravity="center"
@@ -59,7 +59,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email"
+                    android:hint="@string/email"
                     app:hintTextColor="@color/text_secondary"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_marginBottom="16dp">
@@ -75,7 +75,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Password"
+                    android:hint="@string/password"
                     app:hintTextColor="@color/text_secondary"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_marginBottom="8dp"
@@ -110,7 +110,7 @@
                     android:id="@+id/loginButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Login"
+                    android:text="@string/login"
                     android:textSize="16sp"
                     android:padding="12dp" />
 
@@ -128,14 +128,15 @@
                 <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:importantForAccessibility="no"
                     android:src="@drawable/ic_currency_bitcoin"
-                    android:tint="@color/accent_green"
+                    app:tint="@color/accent_green"
                     android:layout_marginBottom="16dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Successfully logged in!"
+                    android:text="@string/kalshi_login_success"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@color/accent_green"
@@ -145,7 +146,7 @@
                     android:id="@+id/loggedInEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="user@example.com"
+                    android:text="@string/email_placeholder"
                     android:textSize="14sp"
                     android:textColor="@color/text_secondary"
                     android:layout_marginBottom="24dp" />
@@ -154,7 +155,7 @@
                     android:id="@+id/continueButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Continue"
+                    android:text="@string/continue_label"
                     android:textSize="16sp"
                     android:padding="12dp"
                     android:layout_marginBottom="12dp" />
@@ -163,7 +164,7 @@
                     android:id="@+id/logoutButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Logout"
+                    android:text="@string/logout"
                     android:textSize="16sp"
                     android:padding="12dp"
                     style="@style/Widget.Material3.Button.OutlinedButton" />

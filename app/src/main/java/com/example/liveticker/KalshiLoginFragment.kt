@@ -79,20 +79,20 @@ class KalshiLoginFragment : Fragment() {
                 when (state) {
                     is AuthState.Loading -> {
                         binding.loginButton.isEnabled = false
-                        binding.loginButton.text = "Logging in..."
+                        binding.loginButton.setText(R.string.logging_in)
                         binding.progressBar.visibility = View.VISIBLE
                     }
                     is AuthState.Success -> {
                         binding.progressBar.visibility = View.GONE
                         binding.loginButton.isEnabled = true
-                        binding.loginButton.text = "Login"
+                        binding.loginButton.setText(R.string.login)
                         Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
                         showLoggedInState()
                     }
                     is AuthState.Error -> {
                         binding.progressBar.visibility = View.GONE
                         binding.loginButton.isEnabled = true
-                        binding.loginButton.text = "Login"
+                        binding.loginButton.setText(R.string.login)
                         binding.errorText.text = state.message
                         binding.errorText.visibility = View.VISIBLE
                     }
@@ -115,7 +115,7 @@ class KalshiLoginFragment : Fragment() {
         binding.loginForm.visibility = View.GONE
         binding.loggedInContainer.visibility = View.VISIBLE
         binding.errorText.visibility = View.GONE
-        binding.loggedInEmail.text = "Logged in as: ${viewModel.getKalshiEmail()}"
+        binding.loggedInEmail.text = getString(R.string.logged_in_as, viewModel.getKalshiEmail())
     }
 
     override fun onDestroyView() {

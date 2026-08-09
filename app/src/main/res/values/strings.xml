@@ -2,14 +2,10 @@
     <string name="app_name">Live Ticker</string>
     <string name="action_settings">Settings</string>
     <string name="first_fragment_label">Live Ticker</string>
-    <string name="second_fragment_label">Portfolio</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
     <string name="connect_wallet">Connect Wallet</string>
     <string name="disconnect_wallet">Disconnect Wallet</string>
     <string name="view_portfolio">View Portfolio</string>
-    <string name="connect_to_aave">Open Aave</string>
     <string name="search_hint">Search coins…</string>
     <string name="portfolio_title">Portfolio</string>
     <string name="back_to_ticker">Back to Ticker</string>
@@ -17,7 +13,6 @@
     <string name="no_tokens_found">No tokens found in this wallet</string>
     <string name="error_loading_portfolio">Error loading portfolio</string>
     <string name="retry">Retry</string>
-    <string name="loading">Loading…</string>
     <string name="token_header">Token</string>
     <string name="balance_header">Balance</string>
     <string name="value_header">Value</string>
@@ -31,7 +26,6 @@
     <string name="about">About</string>
     <string name="high_24h">24h High</string>
     <string name="low_24h">24h Low</string>
-    <string name="change_24h">24h Change</string>
     <string name="change_7d">7d Change</string>
     <string name="change_30d">30d Change</string>
     <string name="change_1y">1y Change</string>
@@ -64,7 +58,6 @@
     <string name="greek_indicators_fmt">Greek Indicators (%1$dd)</string>
     <string name="portfolio_greeks">Portfolio Greeks</string>
     <string name="per_coin_breakdown">Per-Coin Breakdown</string>
-    <string name="weight_label">Weight</string>
     <string name="expand_collapse">Expand or collapse</string>
     
     <!-- Prediction Markets -->
@@ -87,4 +80,42 @@
     <string name="avg_implied_prob_label">Avg Implied Prob</string>
     
     <string name="back">Back</string>
+
+    <!-- Kalshi login -->
+    <string name="kalshi_login_title">Kalshi Login</string>
+    <string name="kalshi_login_subtitle">Sign in to access your Kalshi prediction markets</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="kalshi_login_success">Successfully logged in!</string>
+    <string name="email_placeholder">user@example.com</string>
+    <string name="continue_label">Continue</string>
+    <string name="logout">Logout</string>
+    <string name="logging_in">Logging in…</string>
+    <string name="logged_in_as">Logged in as: %1$s</string>
+
+    <!-- Market browser -->
+    <string name="market_browser_subtitle">Browse active markets from Polymarket and Kalshi</string>
+    <string name="login_to_kalshi">Login to Kalshi</string>
+    <string name="error_loading_markets">Error loading markets</string>
+
+    <!-- Market detail -->
+    <string name="market_stats">Market Stats</string>
+    <string name="yes_price">Yes price</string>
+    <string name="no_price">No price</string>
+    <string name="market_volume_24h">24h volume</string>
+    <string name="liquidity">Liquidity</string>
+    <string name="resolves">Resolves</string>
+    <string name="probability_30d">Probability (30d)</string>
+    <string name="open_on_source">Open on %1$s</string>
+
+    <!-- Formatted values -->
+    <string name="wallet_balance_eth">Balance: %1$s ETH</string>
+    <string name="liquidity_label">Liq: %1$s</string>
+    <string name="resolves_label">Resolves: %1$s</string>
+    <string name="closes_label">Closes: %1$s</string>
+    <string name="error_with_message">Error: %1$s</string>
+    <string name="truncated_name">%1$s…</string>
+    <string name="polymarket">Polymarket</string>
+    <string name="kalshi">Kalshi</string>
 </resources>

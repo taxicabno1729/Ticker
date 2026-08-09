@@ -35,6 +35,7 @@
 
     <!-- Greeks values row -->
     <LinearLayout
+        android:baselineAligned="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -50,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/delta_label"
-                android:textSize="10sp"
+                android:textSize="11sp"
                 android:textColor="@color/text_hint" />
 
             <TextView
@@ -73,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/gamma_label"
-                android:textSize="10sp"
+                android:textSize="11sp"
                 android:textColor="@color/text_hint" />
 
             <TextView
@@ -97,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/theta_label"
-                android:textSize="10sp"
+                android:textSize="11sp"
                 android:textColor="@color/text_hint" />
 
             <TextView
@@ -120,7 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/vega_label"
-                android:textSize="10sp"
+                android:textSize="11sp"
                 android:textColor="@color/text_hint" />
 
             <TextView
@@ -144,7 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/rho_label"
-                android:textSize="10sp"
+                android:textSize="11sp"
                 android:textColor="@color/text_hint" />
 
             <TextView
