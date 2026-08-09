@@ -57,6 +57,23 @@ android {
         viewBinding = true
         buildConfig = true
     }
+    lint {
+        // Advisory checks intentionally off:
+        // - LogNotTimber: the app deliberately uses android.util.Log (Timber is
+        //   only on the classpath transitively via Reown).
+        // - GradleDependency / NewerVersionAvailable / AndroidGradlePluginVersion:
+        //   dependency upgrades are done as dedicated, tested changes, not
+        //   chased per lint run.
+        // - GlobalOptionInConsumerRules: flags proguard rules shipped inside the
+        //   Reown artifacts; not fixable from this project.
+        disable += listOf(
+            "LogNotTimber",
+            "GradleDependency",
+            "NewerVersionAvailable",
+            "AndroidGradlePluginVersion",
+            "GlobalOptionInConsumerRules"
+        )
+    }
 }
 
 dependencies {
@@ -66,18 +83,18 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("org.web3j:core:4.8.7-android")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4")
-    implementation("com.squareup.okhttp3:okhttp:4.9.3")
-    implementation("org.slf4j:slf4j-nop:1.7.32")
-    implementation(platform("com.reown:android-bom:1.6.2"))
-    implementation("com.reown:android-core")
-    implementation("com.reown:appkit")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    implementation("androidx.cardview:cardview:1.0.0")
-    implementation("androidx.security:security-crypto:1.1.0-alpha06")
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.web3j.core)
+    implementation(libs.kotlinx.coroutines.play.services)
+    implementation(libs.okhttp)
+    implementation(libs.slf4j.nop)
+    implementation(platform(libs.reown.android.bom))
+    implementation(libs.reown.android.core)
+    implementation(libs.reown.appkit)
+    implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.androidx.cardview)
+    implementation(libs.androidx.security.crypto)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

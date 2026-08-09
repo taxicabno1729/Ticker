@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
+    <!-- Intrinsic size so it works as a compound drawable; ImageViews with
+         explicit layout sizes scale it as before. -->
+    <size android:width="24dp" android:height="24dp" />
     <solid android:color="@color/card_elevated" />
     <stroke
         android:width="1dp"

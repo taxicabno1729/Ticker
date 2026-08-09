@@ -26,6 +26,7 @@ import com.reown.appkit.client.AppKit
 import com.reown.appkit.client.Modal
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 class FirstFragment : Fragment() {
 
@@ -140,7 +141,10 @@ class FirstFragment : Fragment() {
                     is Resource.Success -> {
                         val balance = resource.data
                         if (balance != null) {
-                            binding.walletBalance.text = "Balance: %.4f ETH".format(balance)
+                            binding.walletBalance.text = getString(
+                                R.string.wallet_balance_eth,
+                                String.format(Locale.US, "%.4f", balance)
+                            )
                             binding.walletBalance.visibility = View.VISIBLE
                         }
                     }

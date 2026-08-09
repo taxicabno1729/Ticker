@@ -2,12 +2,12 @@ package com.example.liveticker
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.core.os.BundleCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -94,10 +94,10 @@ class MarketDetailFragment : Fragment() {
         binding.detailVolume.text = formatCurrency(volume)
         binding.detailLiquidity.text = formatCurrency(liquidity)
         binding.detailResolution.text = resolves
-        binding.detailOpenBrowser.text = "Open on $sourceName"
+        binding.detailOpenBrowser.text = getString(R.string.open_on_source, sourceName)
         binding.detailOpenBrowser.setOnClickListener {
             try {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(webUrl)))
+                startActivity(Intent(Intent.ACTION_VIEW, webUrl.toUri()))
             } catch (e: ActivityNotFoundException) {
                 Toast.makeText(context, "No browser available to open market", Toast.LENGTH_SHORT).show()
             }

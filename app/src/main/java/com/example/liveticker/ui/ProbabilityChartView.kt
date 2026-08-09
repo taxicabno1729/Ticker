@@ -30,6 +30,14 @@ class ProbabilityChartView @JvmOverloads constructor(
     private var points: List<ProbabilityPoint> = emptyList()
     private var scrubIndex: Int = -1
 
+    // Reused across draws; onDraw must not allocate.
+    private val linePath = Path()
+    private val fillPath = Path()
+    private val tooltipRect = RectF()
+    private var shaderColor = 0
+    private var shaderTop = 0f
+    private var shaderBottom = 0f
+
     private val density = resources.displayMetrics.density
     private val labelWidth = 32 * density
     private val chartPadding = 4 * density
@@ -137,30 +145,35 @@ class ProbabilityChartView @JvmOverloads constructor(
         )
         linePaint.color = color
         dotPaint.color = color
-        fillPaint.shader = LinearGradient(
-            0f, top, 0f, bottom,
-            (color and 0x00FFFFFF) or 0x55000000, (color and 0x00FFFFFF),
-            Shader.TileMode.CLAMP
-        )
+        if (shaderColor != color || shaderTop != top || shaderBottom != bottom) {
+            shaderColor = color
+            shaderTop = top
+            shaderBottom = bottom
+            fillPaint.shader = LinearGradient(
+                0f, top, 0f, bottom,
+                (color and 0x00FFFFFF) or 0x55000000, (color and 0x00FFFFFF),
+                Shader.TileMode.CLAMP
+            )
+        }
 
         val minT = points.first().timestampMs
         val maxT = points.last().timestampMs
         val spanT = (maxT - minT).coerceAtLeast(1)
 
-        val line = Path()
+        linePath.rewind()
         points.forEachIndexed { i, pt ->
             val x = left + (right - left) * (pt.timestampMs - minT).toFloat() / spanT
             val y = yFor(pt.probability, top, bottom)
-            if (i == 0) line.moveTo(x, y) else line.lineTo(x, y)
+            if (i == 0) linePath.moveTo(x, y) else linePath.lineTo(x, y)
         }
 
-        val fill = Path(line).apply {
-            lineTo(right, bottom)
-            lineTo(left, bottom)
-            close()
-        }
-        canvas.drawPath(fill, fillPaint)
-        canvas.drawPath(line, linePaint)
+        fillPath.rewind()
+        fillPath.addPath(linePath)
+        fillPath.lineTo(right, bottom)
+        fillPath.lineTo(left, bottom)
+        fillPath.close()
+        canvas.drawPath(fillPath, fillPaint)
+        canvas.drawPath(linePath, linePaint)
 
         val scrubbed = points.getOrNull(scrubIndex) ?: return
         val x = left + (right - left) * (scrubbed.timestampMs - minT).toFloat() / spanT
@@ -191,8 +204,8 @@ class ProbabilityChartView @JvmOverloads constructor(
         val boxHeight = tooltipTextPaint.textSize + 2 * padV
         val boxLeft = (anchorX - boxWidth / 2).coerceIn(left, right - boxWidth)
         val boxTop = top
-        val rect = RectF(boxLeft, boxTop, boxLeft + boxWidth, boxTop + boxHeight)
-        canvas.drawRoundRect(rect, 8 * density, 8 * density, tooltipBgPaint)
+        tooltipRect.set(boxLeft, boxTop, boxLeft + boxWidth, boxTop + boxHeight)
+        canvas.drawRoundRect(tooltipRect, 8 * density, 8 * density, tooltipBgPaint)
         canvas.drawText(
             text,
             boxLeft + padH,

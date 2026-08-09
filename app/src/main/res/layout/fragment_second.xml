@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background"
     tools:context=".SecondFragment">
 
     <!-- Portfolio Header Card -->
@@ -152,6 +151,7 @@
 
                 <!-- Row 1: Delta / Gamma -->
                 <LinearLayout
+                    android:baselineAligned="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -207,6 +207,7 @@
 
                 <!-- Row 2: Theta / Vega -->
                 <LinearLayout
+                    android:baselineAligned="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -262,6 +263,7 @@
 
                 <!-- Row 3: Rho -->
                 <LinearLayout
+                    android:baselineAligned="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -290,13 +292,11 @@
                             tools:text="0.83" />
                     </LinearLayout>
 
-                    <LinearLayout
+                    <Space
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_marginStart="8dp"
-                        android:visibility="invisible" />
+                        android:layout_marginStart="8dp" />
                 </LinearLayout>
 
                 <!-- Per-Coin Breakdown Toggle -->

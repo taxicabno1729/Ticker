@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background"
     tools:context=".FirstFragment">
 
     <!-- Wallet Card - Material 3 Elevated -->
@@ -27,31 +26,20 @@
             android:padding="20dp">
 
             <!-- Wallet Icon + Address -->
-            <LinearLayout
+            <TextView
+                android:id="@+id/walletAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/circle_placeholder"
-                    app:tint="@color/primary" />
-
-                <TextView
-                    android:id="@+id/walletAddress"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="12dp"
-                    android:textSize="12sp"
-                    android:fontFamily="monospace"
-                    android:textColor="@color/onSurfaceVariant"
-                    android:ellipsize="middle"
-                    android:singleLine="true"
-                    tools:text="0x1234...abcd" />
-            </LinearLayout>
+                android:gravity="center_vertical"
+                app:drawableStartCompat="@drawable/circle_placeholder"
+                android:drawablePadding="12dp"
+                app:drawableTint="@color/primary"
+                android:textSize="12sp"
+                android:fontFamily="monospace"
+                android:textColor="@color/onSurfaceVariant"
+                android:ellipsize="middle"
+                android:singleLine="true"
+                tools:text="0x1234...abcd" />
 
             <!-- Balance -->
             <TextView
@@ -187,6 +175,7 @@
             <ImageView
                 android:layout_width="64dp"
                 android:layout_height="64dp"
+                android:importantForAccessibility="no"
                 android:src="@drawable/circle_placeholder"
                 app:tint="@color/onSurfaceVariant" />
 

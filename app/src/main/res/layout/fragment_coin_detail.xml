@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- TooManyViews: static, inflate-once detail screen; splitting it buys
+     nothing while the Greeks section keeps its explicit card grid. -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_dark">
+    tools:ignore="TooManyViews">
 
     <!-- Loading -->
     <ProgressBar
@@ -64,6 +66,7 @@
                 android:elevation="0dp">
 
                 <LinearLayout
+                    android:baselineAligned="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -448,6 +451,7 @@
                     <!-- Greeks Grid: 2 columns, 3 rows -->
                     <!-- Row 1: Delta / Gamma -->
                     <LinearLayout
+                        android:baselineAligned="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -479,7 +483,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/delta_desc"
-                                android:textSize="10sp"
+                                android:textSize="11sp"
                                 android:textColor="@color/text_hint" />
                         </LinearLayout>
 
@@ -509,13 +513,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/gamma_desc"
-                                android:textSize="10sp"
+                                android:textSize="11sp"
                                 android:textColor="@color/text_hint" />
                         </LinearLayout>
                     </LinearLayout>
 
                     <!-- Row 2: Theta / Vega -->
                     <LinearLayout
+                        android:baselineAligned="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -547,7 +552,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/theta_desc"
-                                android:textSize="10sp"
+                                android:textSize="11sp"
                                 android:textColor="@color/text_hint" />
                         </LinearLayout>
 
@@ -577,13 +582,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/vega_desc"
-                                android:textSize="10sp"
+                                android:textSize="11sp"
                                 android:textColor="@color/text_hint" />
                         </LinearLayout>
                     </LinearLayout>
 
                     <!-- Row 3: Rho -->
                     <LinearLayout
+                        android:baselineAligned="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -614,17 +620,15 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/rho_desc"
-                                android:textSize="10sp"
+                                android:textSize="11sp"
                                 android:textColor="@color/text_hint" />
                         </LinearLayout>
 
-                        <LinearLayout
+                        <Space
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:layout_marginStart="8dp"
-                            android:visibility="invisible" />
+                            android:layout_marginStart="8dp" />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

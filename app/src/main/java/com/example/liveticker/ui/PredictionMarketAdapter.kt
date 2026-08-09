@@ -71,7 +71,7 @@ class PredictionMarketAdapter(
             pnlPercent.setTextColor(ContextCompat.getColor(itemView.context, pnlColor))
             
             category.text = position.category
-            resolutionDate.text = "Resolves: ${position.resolutionDate}"
+            resolutionDate.text = itemView.context.getString(R.string.resolves_label, position.resolutionDate)
             chainName.text = position.chainName
             
             // Click listener
@@ -119,7 +119,11 @@ class PositionMetricsAdapter : ListAdapter<com.example.liveticker.data.PositionM
         private val edge: TextView = itemView.findViewById(R.id.edge)
 
         fun bind(item: com.example.liveticker.data.PositionMetrics) {
-            marketName.text = item.marketQuestion.take(30) + if (item.marketQuestion.length > 30) "..." else ""
+            marketName.text = if (item.marketQuestion.length > 30) {
+                itemView.context.getString(R.string.truncated_name, item.marketQuestion.take(30))
+            } else {
+                item.marketQuestion
+            }
             weight.text = String.format(Locale.US, "%.1f%%", item.weight * 100)
             probDelta.text = String.format(Locale.US, "%+.3f", item.metrics.probabilityDelta)
             timeTheta.text = String.format(Locale.US, "%+.2f", item.metrics.timeTheta)

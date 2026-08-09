@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background_dark"
     tools:context=".PredictionMarketFragment">
 
     <!-- Header Card -->
@@ -111,6 +110,7 @@
 
                 <!-- Row 1: Probability Delta / Probability Gamma -->
                 <LinearLayout
+                    android:baselineAligned="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -166,6 +166,7 @@
 
                 <!-- Row 2: Time Theta / Liquidity Vega -->
                 <LinearLayout
+                    android:baselineAligned="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -221,6 +222,7 @@
 
                 <!-- Row 3: Volume Rho / Implied Probability -->
                 <LinearLayout
+                    android:baselineAligned="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"

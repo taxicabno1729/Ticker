@@ -1,4 +1,8 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<!-- Theme + the app's type-scale/widget style vocabulary (see the
+     frontend-design skill). Styles form a complete set even while some
+     have no consumer yet. -->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="UnusedResources">
     <!-- Base Material 3 Theme -->
     <style name="Base.Theme.LiveTicker" parent="Theme.Material3.Dark.NoActionBar">
         <!-- Primary colors -->
@@ -49,7 +53,13 @@
         <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
     </style>
 
-    <style name="Theme.LiveTicker" parent="Base.Theme.LiveTicker" />
+    <style name="Theme.LiveTicker" parent="Base.Theme.LiveTicker">
+        <!-- Transparent system bars for edge-to-edge (merged from values-v23;
+             minSdk 24 makes the v23 qualifier redundant). -->
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+    </style>
     
     <!-- Typography Styles -->
     <style name="TextAppearance.LiveTicker.DisplayLarge" parent="TextAppearance.Material3.DisplayLarge">
