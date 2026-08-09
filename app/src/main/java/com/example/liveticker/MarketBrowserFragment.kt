@@ -1,13 +1,11 @@
 package com.example.liveticker
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -204,15 +202,11 @@ class MarketBrowserFragment : Fragment() {
     }
 
     private fun onMarketClicked(marketItem: MarketListItem) {
-        val url = when (marketItem) {
-            is MarketListItem.PolymarketItem -> marketItem.market.webUrl
-            is MarketListItem.KalshiItem -> marketItem.market.webUrl
+        val bundle = when (marketItem) {
+            is MarketListItem.PolymarketItem -> bundleOf("polymarket_market" to marketItem.market)
+            is MarketListItem.KalshiItem -> bundleOf("kalshi_market" to marketItem.market)
         }
-        try {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
-        } catch (e: ActivityNotFoundException) {
-            Toast.makeText(context, "No browser available to open market", Toast.LENGTH_SHORT).show()
-        }
+        findNavController().navigate(R.id.action_MarketBrowserFragment_to_MarketDetailFragment, bundle)
     }
 
     private fun showError(message: String?) {
