@@ -15,11 +15,15 @@ class TickerApplication : Application() {
 
         val projectId = BuildConfig.REOWN_PROJECT_ID
 
+        // Wallets act on this metadata: the url feeds Reown's Verify API and
+        // Coinbase's WalletSegue callback (which must be a resolvable domain —
+        // the old liveticker.example.com placeholder broke the Base handshake),
+        // and icons render in wallet approval sheets. Both URLs verified live.
         val appMetaData = Core.Model.AppMetaData(
             name = "Live Ticker",
             description = "Crypto portfolio tracker",
-            url = "https://liveticker.example.com",
-            icons = emptyList(),
+            url = "https://github.com/taxicabno1729/Ticker",
+            icons = listOf("https://raw.githubusercontent.com/taxicabno1729/Ticker/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp"),
             redirect = "liveticker://request"
         )
 
