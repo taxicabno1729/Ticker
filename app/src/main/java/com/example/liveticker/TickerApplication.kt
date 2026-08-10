@@ -47,7 +47,14 @@ class TickerApplication : Application() {
             // Excluding it filters the entry server-side. Recheck after an SDK upgrade.
             init = Modal.Params.Init(
                 core = CoreClient,
-                excludedWalletIds = listOf("1f69170bf7a9bdcf89403ec012659b7124e158f925cdd4a2be49274c24cf5e5d")
+                excludedWalletIds = listOf("1f69170bf7a9bdcf89403ec012659b7124e158f925cdd4a2be49274c24cf5e5d"),
+                // The Base app (formerly Coinbase Wallet) sunset the Wallet
+                // Mobile SDK protocol AppKit speaks: it swallows the wsegue
+                // handshake with no consent prompt (verified on-device against
+                // SDK payload formats 1.0.4 and 1.2.0), so the Coinbase row
+                // can never complete a connection. Hide it until AppKit adopts
+                // the Base Account SDK.
+                coinbaseEnabled = false
             ),
             onSuccess = {
                 android.util.Log.d("TickerApp", "AppKit init success")
