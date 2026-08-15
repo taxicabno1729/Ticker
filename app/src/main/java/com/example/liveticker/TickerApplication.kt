@@ -47,7 +47,13 @@ class TickerApplication : Application() {
             // Excluding it filters the entry server-side. Recheck after an SDK upgrade.
             init = Modal.Params.Init(
                 core = CoreClient,
-                excludedWalletIds = listOf("1f69170bf7a9bdcf89403ec012659b7124e158f925cdd4a2be49274c24cf5e5d")
+                excludedWalletIds = listOf("1f69170bf7a9bdcf89403ec012659b7124e158f925cdd4a2be49274c24cf5e5d"),
+                // Pin Phantom into the modal's top rows (it ranks outside them
+                // by default). Its registry entry covers our EVM chains but has
+                // no Android mobile_link, so AppKit can list it yet not
+                // deep-link into the app — tapping it offers QR / Play Store
+                // until Phantom fixes their Reown registry entry.
+                recommendedWalletsIds = listOf("a797aa35c0fadbfc1a53e7f675162ed5226968b44a19ee3d24385c64d1d3c393")
             ),
             onSuccess = {
                 android.util.Log.d("TickerApp", "AppKit init success")
